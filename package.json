@@ -1,0 +1,22 @@
+{
+  "name": "mpds-escuelait",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresito87/MPDS-EscuelaIT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andresito87/MPDS-EscuelaIT/issues"
+  },
+  "homepage": "https://github.com/andresito87/MPDS-EscuelaIT#readme",
+  "dependencies": {
+    "console-mpds": "^1.0.2"
+  }
+}
