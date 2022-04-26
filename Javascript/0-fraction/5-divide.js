@@ -1,12 +1,3 @@
-// Primera fracción:
-// Introduce el numerador de la fracción: 2
-// Introduce el denominador de la fracción: 3
-// Segunda fracción:
-// Introduce el numerador de la fracción: 3
-// Introduce el denominador de la fracción: 4
-
-// La DIVISIÓN(corregido) de la fracción 2/3 y la fracción 3/4 es la fracción 8/9
-
 const { Console } = require("console-mpds");
 const console = new Console();
 
