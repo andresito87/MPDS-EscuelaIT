@@ -7,14 +7,15 @@
 // Dame el mes: 30
 // Dame el año: 30
 
-// La fecha 30/30/30 no es válida
-// Dame el día: 2022
-// Dame el mes: 2022
-// Dame el año: 2022
-
-// La fecha 2022/2022/2022 no es válida
-
 const { Console } = require("console-mpds");
 const console = new Console();
 
-console.writeln("Hola Mundo");
+let dia = console.readNumber(`Dame el día:`);
+let mes = console.readNumber(`Dame el mes:`);
+let anyo = console.readNumber(`Dame el año:`);
+
+console.write(
+  `La fecha ${dia}/${mes}/${anyo} ${
+    dia <= 31 && mes <= 12 ? "sí" : "no"
+  } es válida`
+); //no se contempla el caso de año bisiesto
