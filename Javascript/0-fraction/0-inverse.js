@@ -5,4 +5,6 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-console.writeln("Hola Mundo");
+let num = console.readNumber(`Introduce el numerador de la fracción:`);
+let den = console.readNumber(`Introduce el denominador de la fracción:`);
+console.writeln(`La fracción ${num}/${den} invertida es ${den}/${num}`);
