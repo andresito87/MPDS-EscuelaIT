@@ -1,61 +1,19 @@
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: -3
-// Introduce el máximo del intervalo (superior o igual al mínimo): 3
-
-// El intervalo [4, 10] no intersecta con el intervalo [-3, 3]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: -3
-// Introduce el máximo del intervalo (superior o igual al mínimo): 4
-
-// El intervalo [4, 10] si intersecta con el intervalo [-3, 4]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: -3
-// Introduce el máximo del intervalo (superior o igual al mínimo): 8
-
-// El intervalo [4, 10] si intersecta con el intervalo [-3, 8]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 5
-// Introduce el máximo del intervalo (superior o igual al mínimo): 8
-
-// El intervalo [4, 10] si intersecta con el intervalo [5, 8]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 5
-// Introduce el máximo del intervalo (superior o igual al mínimo): 12
-
-// El intervalo [4, 10] si intersecta con el intervalo [5, 12]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 11
-// Introduce el máximo del intervalo (superior o igual al mínimo): 12
-
-// El intervalo [4, 10] no intersecta con el intervalo [11, 12]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 0
-// Introduce el máximo del intervalo (superior o igual al mínimo): 100
-
-// El intervalo [4, 10] si intersecta con el intervalo [0, 100]
-
 const { Console } = require("console-mpds");
 const console = new Console();
-
-console.writeln("Hola Mundo");
+const msgReadMin = "Introduce el mínimo del intervalo:";
+const msgReadMax =
+  "Introduce el máximo del intervalo (superior o igual al mínimo):";
+const minFirst = console.readNumber(`Primer intervalo:
+${msgReadMin}`);
+const maxFirst = console.readNumber(msgReadMax);
+const minSecond = console.readNumber(`Segundo intervalo:
+${msgReadMin}`);
+const maxSecond = console.readNumber(msgReadMax);
+let msg = `El intervalo [${minFirst}, ${maxFirst}]`;
+msg +=
+  (minFirst <= maxSecond && minSecond <= maxFirst) ||
+  (minSecond <= maxFirst && minFirst <= maxSecond)
+    ? ` sí `
+    : ` no `;
+msg += `intersecta con el intervalo [${minSecond}, ${maxSecond}]`;
+console.writeln(msg);

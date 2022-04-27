@@ -9,6 +9,6 @@ point = console.readNumber(`Introduce un punto:`);
 
 console.writeln(
   `\nEl intervalo [${minInterval},${maxInterval}] ${
-    minInterval <= point && point <= maxInterval ? "si" : "no"
+    minInterval <= point && point <= maxInterval ? "sí" : "no"
   } incluye el punto ${point}`
 );

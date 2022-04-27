@@ -1,15 +1,15 @@
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Introduce un factor de desplazamiento: 1
-
-// El intervalo [4, 10] con factor de desplazamiento 1 es el intervalo [5, 11]
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Introduce un factor de desplazamiento: -4
-
-// El intervalo [4, 10] con factor de desplazamiento -4 es el intervalo [0, 6]
-
 const { Console } = require("console-mpds");
 const console = new Console();
 
-console.writeln("Hola Mundo");
+const min = console.readNumber(`Introduce el mínimo del intervalo:`);
+const max = console.readNumber(
+  `Introduce el máximo del intervalo (superior o igual al mínimo):`
+);
+const displacement = console.readNumber(
+  `Introduce un factor de desplazamiento:`
+);
+console.writeln(
+  `El intervalo [${min}, ${max}] con factor de desplazamiento ${displacement} es el intervalo [${
+    min + displacement
+  }, ${max + displacement}]`
+);

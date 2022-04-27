@@ -1,45 +1,16 @@
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: -3
-// Introduce el máximo del intervalo (superior o igual al mínimo): 4
-
-// El intervalo [4, 10] intersección con el intervalo [-3, 4] es el intervalo [4, 4]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: -3
-// Introduce el máximo del intervalo (superior o igual al mínimo): 8
-
-// El intervalo [4, 10] intersección con el intervalo [-3, 8] es el intervalo [4, 8]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 5
-// Introduce el máximo del intervalo (superior o igual al mínimo): 8
-
-// El intervalo [4, 10] intersección con el intervalo [5, 8] es el intervalo [5, 8]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 5
-// Introduce el máximo del intervalo (superior o igual al mínimo): 12
-
-// El intervalo [4, 10] intersección con el intervalo [5, 12] es el intervalo [5, 10]
-// Primer intervalo:
-// Introduce el mínimo del intervalo: 4
-// Introduce el máximo del intervalo (superior o igual al mínimo): 10
-// Segundo intervalo:
-// Introduce el mínimo del intervalo: 0
-// Introduce el máximo del intervalo (superior o igual al mínimo): 100
-
-// El intervalo [4, 10] intersección con el intervalo [0, 100] será el intervalo [4, 10]
-
 const { Console } = require("console-mpds");
 const console = new Console();
-
-console.writeln("Hola Mundo");
+const msgReadMin = "Introduce el mínimo del intervalo:";
+const msgReadMax =
+  "Introduce el máximo del intervalo (superior o igual al mínimo):";
+const minFirst = console.readNumber(`Primer intervalo:
+${msgReadMin}`);
+const maxFirst = console.readNumber(msgReadMax);
+const minSecond = console.readNumber(`Segundo intervalo:
+${msgReadMin}`);
+const maxSecond = console.readNumber(msgReadMax);
+let msg = `El intervalo [${minFirst}, ${maxFirst}] intersección con el intervalo [${minSecond}, ${maxSecond}] es el intervalo [`;
+const left = minFirst > minSecond ? minFirst : minSecond;
+const right = maxFirst < maxSecond ? maxFirst : maxSecond;
+msg += `${left}, ${right}]`;
+console.writeln(msg);
