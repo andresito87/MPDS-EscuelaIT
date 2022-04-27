@@ -1,25 +1,20 @@
-// Primera duración:
-// Dame las horas: 12
-// Dame los minutos: 12
-// Dame los segundos: 12
-
-// Segunda duración:
-// Dame las horas: 10
-// Dame los minutos: 10
-// Dame los segundos: 10
-
-// La suma es 22:22:22
-// Dame las horas: 40
-// Dame los minutos: 40
-// Dame los segundos: 40
-
-// Dame las horas: 30
-// Dame los minutos: 30
-// Dame los segundos: 30
-
-// La suma es 71:11:10
-
 const { Console } = require("console-mpds");
 const console = new Console();
 
-console.writeln("Hola Mundo");
+console.writeln(`Primera duración:`);
+const hours = console.readNumber(`Dame las horas:`);
+const minutes = console.readNumber(`Dame las minutos:`);
+const seconds = console.readNumber(`Dame las segundos:`);
+
+console.writeln(`\nSegunda duración:`);
+const hours2 = console.readNumber(`Dame las horas:`);
+const minutes2 = console.readNumber(`Dame las minutos:`);
+const seconds2 = console.readNumber(`Dame las segundos:`);
+
+console.writeln(
+  `La suma es ${
+    minutes + minutes2 > 60 ? hours + hours2 + 1 : hours + hours2
+  }:${seconds + seconds2 > 60 ? minutes + minutes2 - 60 : minutes + minutes2}:${
+    seconds + seconds2 > 60 ? minutes + minutes2 - 60 : minutes + minutes2
+  }`
+);
