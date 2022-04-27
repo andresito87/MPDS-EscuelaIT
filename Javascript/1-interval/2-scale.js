@@ -22,8 +22,12 @@ const max = console.readNumber(
   `Introduce el máximo del intervalo (superior o igual al mínimo): `
 );
 const scaleFactor = console.readNumber(
-  `Introduce un factor de escala positivo:`
+  parseFloat(`Introduce un factor de escala positivo:`)
 );
-const newMin = min * scaleFactor;
-const newMax = max * scaleFactor;
-console.writeln(`El nuevo intervalo es [${newMin}, ${newMax}]`);
+const interval = max - min;
+const centerInterval = interval / 2 + min;
+const newMin = centerInterval - (interval / 2) * scaleFactor;
+const newMax = centerInterval + (interval / 2) * scaleFactor;
+console.writeln(
+  `El intervalo [${min}, ${max}] con factor de escala ${scaleFactor} es el intervalo [${newMin}, ${newMax}]`
+);
