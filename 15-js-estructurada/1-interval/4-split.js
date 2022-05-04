@@ -39,8 +39,7 @@ const interval = (maximumInterval - minimumInterval)/amountIntervals-1;
 const interval = (maximumInterval - minimumInterval)/2;
 }
 
-for (let i = 1 ; i>= amountIntervals;i++){
-    console.write (`${minimumInterval+interval}`)
-}
+// Falta Mostrar resultados
+
 console.writeln(`El intervalo [${minimumInterval}, ${maximumInterval} dividido en ${amountIntervals = 1 ? "es":"son"}  \
       `)
