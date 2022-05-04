@@ -19,3 +19,28 @@
 
 const { Console } = require("console-mpds");
 const console = new Console();
+
+const minimumInterval = console.readNumber(` Introduce el mínimo del intervalo:`);
+
+do {
+    const maximumInterval = console.readNumber(`Introduce el máximo del intervalo (superior o igual al mínimo): `);
+}while(maximumInterval < minimumInterval)
+    console.writeln(`Error!!! El máximo debe ser superior o igual al máximo`);
+
+do {
+    const amountIntervals = console.writeln(`Introduce una cantidad positiva de intervalos:`)
+}while(amountIntervals <= 0){
+    console.writeln(`Error!!! La cantidad debe ser positiva`);
+}
+
+if (amountIntervals >2){
+const interval = (maximumInterval - minimumInterval)/amountIntervals-1;
+}else{
+const interval = (maximumInterval - minimumInterval)/2;
+}
+
+for (let i = 1 ; i>= amountIntervals;i++){
+    console.writeln (`${minimumInterval+interval}`)
+}
+console.writeln(`El intervalo [${minimumInterval}, ${maximumInterval} dividido en ${amountIntervals = 1 ? "es":"son"}  \
+      `)
