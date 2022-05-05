@@ -20,11 +20,11 @@ const lenghtInterval = (maximumInterval - minimumInterval)/(numberOfIntervals);
 
 console.write(`El intervalo [${minimumInterval}, ${maximumInterval}] dividido en ${numberOfIntervals} ${numberOfIntervals === 1 ? "es ":"son "}`);
 for(let i = 0; i<numberOfIntervals;i++){
-    let intervals = [];
-    intervals[i] = (minimumInterval + (i*lenghtInterval));
+    
+    let aux = (minimumInterval + (i*lenghtInterval));
     
     if (i===0){
-        console.write(`[${minimumInterval}, ${intervals[i]+lenghtInterval}]`);
+        console.write(`[${minimumInterval}, ${aux+lenghtInterval}]`);
     }
     else if(i===(numberOfIntervals-1))
     {
@@ -34,6 +34,6 @@ for(let i = 0; i<numberOfIntervals;i++){
     else 
     {
         let anterior = minimumInterval + (i*lenghtInterval);
-        console.write(`[${anterior}, ${intervals[i]+lenghtInterval}]`);
+        console.write(`[${anterior}, ${aux+lenghtInterval}]`);
     }
 }
