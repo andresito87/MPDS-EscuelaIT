@@ -30,7 +30,7 @@ else if(month >=3 || month <=6 )
     else if(month === 4 && day > 21 || month === 5 && day < 21)
         season = "a mediados de primavera";
     else
-        season = " a finales de primavera";
+        season = "a finales de primavera";
 }
 else if(month >=6  || month <=9 )
 {
@@ -39,7 +39,7 @@ else if(month >=6  || month <=9 )
     else if(month === 7 && day > 21 || month === 8 && day < 21)
         season = "a mediados de verano";
     else
-    season = " a finales de verano";
+    season = "a finales de verano";
 }
 else
 {
@@ -48,7 +48,7 @@ else
     else if(month === 10 && day > 21 || month === 11 && day < 21)
         season = "a mediados de otoño";
     else
-    season = " a finales de otoño";
+    season = "a finales de otoño";
 }
 
 console.writeln(`El día ${day} del ${month} de ${year} cae ${season}`);
