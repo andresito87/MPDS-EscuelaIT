@@ -44,8 +44,8 @@ else if(dayOfYear >= FIRST_DAY_AUTUMN && dayOfYear < FIRST_DAY_WINTER)
     }
 else 
     {
-    msgSeason += `invierno`;
-    dayOfYear >= FIRST_DAY_WINTER ? msgPeriod = ` primeros de `:``;
+        msgSeason += `invierno`;
+        dayOfYear >= FIRST_DAY_WINTER ? msgPeriod = ` primeros de `:``;
     }
     
 
@@ -53,15 +53,15 @@ if (msgPeriod === ``) {
     let period  = (dayOfYear - firstDate) / 30;
     if (period < 1) 
         {
-        msgPeriod = `primeros de `;
+            msgPeriod = `primeros de `;
         }
     else if(period < 2) 
         {
-        msgPeriod = `mediados de `;
+            msgPeriod = `mediados de `;
         }
     else 
         {
-        msgPeriod = `finales de `;
+            msgPeriod = `finales de `;
         }
     }
 
