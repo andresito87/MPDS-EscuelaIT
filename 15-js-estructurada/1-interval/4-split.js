@@ -26,7 +26,7 @@ for(let i = 0; i<numberOfIntervals;i++){
     if (i===0){
         console.write(`[${minimumInterval}, ${intervals[i]+lenghtInterval}]`);
     }
-    else if(i===(numberOfIntervals-1) )
+    else if(i===(numberOfIntervals-1))
     {
         let anterior = minimumInterval + (i*lenghtInterval);
         console.write(` y [${anterior}, ${maximumInterval}]`);
