@@ -1,16 +1,18 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
+//Recursividad para calcular Máximo común divisor(gcd)
+
 const numerator = console.readNumber(`Introduce el numerador de la fracción: `);
 const denominator = console.readNumber(`Introduce el denominador de la fracción: `);
-let greatestCommonDivisor;
+let gcd;
 
 if (numerator > denominator){
     let i = denominator;
     while(i > 1){
          if (denominator%i ===0){
             if (numerator%i === 0)
-                greatestCommonDivisor = i;        
+                gcd = i;        
             }
         i--;
     }
@@ -19,13 +21,13 @@ if (numerator > denominator){
     while(i > 1){
          if (numerator%i ===0){
             if (denominator%i === 0)
-                greatestCommonDivisor = i;        
+                gcd = i;        
             }
         i--;
     }
 }else {
-    greatestCommonDivisor = numerator;
+    gcd = numerator;
 }
-console.writeln(`La fracción ${numerator}/${denominator} = ${numerator/greatestCommonDivisor}/\
-${denominator/greatestCommonDivisor} invertida es la fracción ${denominator/greatestCommonDivisor}/\
-${numerator/greatestCommonDivisor}`);
+console.writeln(`La fracción ${numerator}/${denominator} = ${numerator/gcd}/\
+${denominator/gcd} invertida es la fracción ${denominator/gcd}/\
+${numerator/gcd}`);

@@ -1,10 +1,9 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-let minimum = 0;
-let maximum = 0;
-let numOfIntervals = 0;
-let isOk = true;
+let minimum;
+let maximum;
+let isOk;
 do {
     minimum = console.readNumber(`Introduce el mínimo del intervalo:`);
     maximum = console.readNumber(`Introduce el máximo del intervalo (superior o igual al mínimo):`);
@@ -14,6 +13,8 @@ do {
     }
 
 } while (!isOk);
+
+let numOfIntervals;
 do {
     numOfIntervals = console.readNumber(`Introduce una cantidad positiva de intervalos:`);
     isOk = numOfIntervals > 0;

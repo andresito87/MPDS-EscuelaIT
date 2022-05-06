@@ -1,8 +1,8 @@
 const { Console } = require("console-mpds");
 const console = new Console();
-let day = 0;
-let month = 0;
-let year = 0;
+let day;
+let month;
+let year;
 // primero de primavera
 const FIRST_DAY_SPRING = 2 * 30 + 21;
 // primero de verano
@@ -22,7 +22,7 @@ do {
 } while (year < 1);
 let msg = `El día ${day} del ${month} de ${year} cae a `;
 let msgSeason = ``;
-let firstDate = 0;
+let firstDate;
 let msgPeriod = ``;
 let dayOfYear = day + (month - 1) * 30;
 console.writeln(dayOfYear);
@@ -45,7 +45,6 @@ else if(dayOfYear >= FIRST_DAY_AUTUMN && dayOfYear < FIRST_DAY_WINTER)
 else 
     {
         msgSeason += `invierno`;
-        dayOfYear >= FIRST_DAY_WINTER ? msgPeriod = ` primeros de `:``;
     }
     
 
