@@ -22,20 +22,18 @@ do {
 const DAYS_IN_YEAR = DAYS_IN_MONTH * 12;
 const OFFSET_DAYS = 80;
 const dayOfYear = DAYS_IN_MONTH * (month - 1) + day;
-let offsetDayOfYear = dayOfYear - (OFFSET_DAYS % DAYS_IN_YEAR) <= 0
-    ? offsetDayOfYear += DAYS_IN_YEAR
-    : dayOfYear - (OFFSET_DAYS % DAYS_IN_YEAR);
-
+let offsetDayOfYear = dayOfYear - (OFFSET_DAYS % DAYS_IN_YEAR);
+if (offsetDayOfYear <= 0) {
+    offsetDayOfYear += DAYS_IN_YEAR;
+}
 const SEASON_PARTS = ["principios", "mediados", "finales"];
-let seasonPart = offsetDayOfYear % 90 === 0
-    ? 90
-    : offsetDayOfYear % 90
+let seasonPart = offsetDayOfYear % 90 === 0 ? 90 : offsetDayOfYear % 90
 
 let message = `El día ${day} del ${month} del año ${year} cae a `;
 
 for (let i = 0; i < SEASON_PARTS.length; i++) {
-    i * DAYS_IN_MONTH < seasonPart && seasonPart <= (i + 1) * DAYS_IN_MONTH
-        ? message += `${SEASON_PARTS[i]} `
+    message += i * DAYS_IN_MONTH < seasonPart && seasonPart <= (i + 1) * DAYS_IN_MONTH
+        ? `${SEASON_PARTS[i]} `
         : ``
 }
 
@@ -43,8 +41,8 @@ const SEASONS = ["primavera", "verano", "otoño", "invierno"];
 const seasonNumber = offsetDayOfYear / 90;
 
 for (let i = 0; i < SEASONS.length; i++) {
-    i < seasonNumber && seasonNumber <= i + 1
-        ? message += `de ${SEASONS[i]}.`
+    message += i < seasonNumber && seasonNumber <= i + 1
+        ? `de ${SEASONS[i]}.`
         : ``
 }
 
