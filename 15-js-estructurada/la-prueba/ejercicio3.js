@@ -1,23 +1,27 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-let number = console.readNumber("Dame el número a adivinar");
-let firstNumber = 0;
-let lastNumber = 1000000;
-let searchedNumber;
+//Binary Search
+
 let found = false;
-let middlePoint;
 
-while (found || firstNumber <= lastNumber) {
-    lastNumber = console.readNumber("¿Como es ");
-    middlePoint = parseInt((firstNumber + lastNumber) / 2);
-
-    if (middlePoint === number) {
+do {
+    let firstNumber = 0;
+    let lastNumber = 1000000;
+    let remainder = (lastNumber - firstNumber) % 2;
+    let middlePoint = remainder === 0
+        ? ((lastNumber - firstNumber) / 2) + firstNumber
+        : ((lastNumber - firstNumber) + remainder) / 2 + firstNumber;
+    let response = console.readString(`¿ Como es ${middlePoint} ?`);
+    const possibleResponse = [`Igual`, `Mayor`, `Menor`];
+    if (response === possibleResponse[0]) {
+        console.writeln(`¡¡¡Bien, lo encontré!!! El número es ${middlePoint}`);
         found = true;
-        console.writeln(`¡¡¡Bien, lo encontraste!!! El número es ${lastNumber}`);
-    } else if (middlePoint >= number) {
-        console.writeln(`Es menor o igual que ${lastNumber}`)
+    } else if (response === possibleResponse[1]) {
+        lastNumber = middlePoint;
+    } else if (response === possibleResponse[2]) {
+        firstNumber = middlePoint;
     } else {
-        console.writeln(`Es mayor o igual que ${lastNumber}`)
+        console.writeln("Por favor, escribe bien. Sólo dime si es Mayor, Menor o Igual a tu número.");
     }
-}
+} while (!found)
