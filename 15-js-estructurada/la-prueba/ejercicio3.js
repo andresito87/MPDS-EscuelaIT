@@ -18,9 +18,9 @@ do {
         console.writeln(`¡¡¡Bien, lo encontré!!! El número es ${middlePoint}`);
         found = true;
     } else if (response === possibleResponse[1]) {
-        lastNumber = middlePoint;
+        lastNumber = middlePoint-1;
     } else if (response === possibleResponse[2]) {
-        firstNumber = middlePoint;
+        firstNumber = middlePoint+1;
     } else {
         console.writeln("Por favor, escribe bien. Sólo dime si es Mayor, Menor o Igual a tu número.");
     }
