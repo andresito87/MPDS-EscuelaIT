@@ -4,10 +4,10 @@ const console = new Console();
 //Binary Search
 
 let found = false;
+let firstNumber = 0;
+let lastNumber = 1000000;
 
 do {
-    let firstNumber = 0;
-    let lastNumber = 1000000;
     let remainder = (lastNumber - firstNumber) % 2;
     let middlePoint = remainder === 0
         ? ((lastNumber - firstNumber) / 2) + firstNumber
