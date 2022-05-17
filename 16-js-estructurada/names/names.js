@@ -272,7 +272,7 @@ switch (menuOption) {
         break;
 
     case 2:
-        countrySearched = console.readString(`Dame el nombre del país:  `);
+        const countrySearched = console.readString(`Dame el nombre del país:  `);
         for (i = 0; countrySearched != NAMES[i] && i < NAMES.length; i++);
         console.writeln(`El país "${countrySearched}" ${(i != NAMES.length)
             ? `sí`
