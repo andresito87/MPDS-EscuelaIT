@@ -255,9 +255,11 @@ const NAMES = [
     "Tanzania"
 ];
 
-console.writeln(`1. Ver países \n2. Buscar país \n3. Salir`)
-
-const menuOption = console.readNumber(`Escoge opción? [1-3]:  `)
+let menuOption;
+do {
+    console.writeln(`1. Ver países \n2. Buscar país \n3. Salir`)
+    menuOption = console.readNumber(`Escoge opción? [1-3]:  `)
+} while (menuOption != 1 && menuOption != 2 && menuOption != 3);
 
 switch (menuOption) {
 
@@ -276,10 +278,11 @@ switch (menuOption) {
         for (i = 0; countrySearched != NAMES[i] && i < NAMES.length; i++);
         console.writeln(`El país "${countrySearched}" ${(i != NAMES.length)
             ? `sí`
-            : `no`} está incluido.`);
+            : `no`
+            } está incluido.`);
         break;
 
-    default:
+    case 3:
         console.writeln(``);
         break;
 }
