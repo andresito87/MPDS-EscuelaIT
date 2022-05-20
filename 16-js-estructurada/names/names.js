@@ -259,30 +259,36 @@ let menuOption;
 do {
     console.writeln(`1. Ver países \n2. Buscar país \n3. Salir`)
     menuOption = console.readNumber(`Escoge opción? [1-3]:  `)
-} while (menuOption != 1 && menuOption != 2 && menuOption != 3);
+    switch (menuOption) {
 
-switch (menuOption) {
+        case 1:
+            for (let i = 0; i < NAMES.length; i++) {
+                if (i === NAMES.length - 2) {
+                    console.write(`${NAMES[i]} y `);
+                } else if (i === NAMES.length - 1) {
+                    console.writeln(`${NAMES[i]}.`);
+                } else {
+                    console.write(`${NAMES[i]}, `)
+                }
+            }
+            break;
 
-    case 1:
-        console.write(NAMES[0]);
-        let listCountries;
-        for (let i = 1; i < NAMES.length; i++) {
-            listCountries += i != NAMES.length - 1
-                ? console.write(`, ${NAMES[i]}`)
-                : console.write(` y ${NAMES[i]}.`);
-        }
-        break;
+        case 2:
+            const countrySearched = console.readString(`Dame el nombre del país:  `);
+            for (i = 0; countrySearched != NAMES[i] && i < NAMES.length; i++);
+            console.writeln(`El país "${countrySearched}" ${(i != NAMES.length)
+                ? `sí`
+                : `no`
+                } está incluido.`);
+            break;
 
-    case 2:
-        const countrySearched = console.readString(`Dame el nombre del país:  `);
-        for (i = 0; countrySearched != NAMES[i] && i < NAMES.length; i++);
-        console.writeln(`El país "${countrySearched}" ${(i != NAMES.length)
-            ? `sí`
-            : `no`
-            } está incluido.`);
-        break;
+        case 3:
+            console.writeln(`Fin del programa.`);
+            break;
 
-    case 3:
-        console.writeln(``);
-        break;
-}
+        default:
+            console.writeln(`Opción incorrecta, vuelve a intentarlo.`);
+            break;
+    }
+} while (menuOption !== 3);
+

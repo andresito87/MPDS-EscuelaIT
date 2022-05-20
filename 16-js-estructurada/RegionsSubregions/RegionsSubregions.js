@@ -1,5 +1,5 @@
-// const { Console } = require("console-mpds");
-// const console = new Console();
+const { Console } = require("console-mpds");
+const console = new Console();
 
 const REGIONS = [
     "Americas",
@@ -253,7 +253,6 @@ const REGIONS = [
     "Americas",
     "Africa"
 ];
-
 const SUBREGIONS = [
     "South America",
     "South America",
@@ -507,37 +506,48 @@ const SUBREGIONS = [
     "Eastern Africa"
 ];
 
-let aux;
-let americaList;
-let africaList;
-let oceaniaList;
-let asiaList;
-let europaList;
-let antarticList;
-americaList = `${SUBREGIONS[0]}\n`;
-
-
-for (let i = 1; i < REGIONS.length; i++) {
-    switch (REGIONS[i]) {
-        case "Americas":
-            americaList += (aux != `${SUBREGIONS[i]}`) ? `${SUBREGIONS[i]}\n` : ``;
-            aux = SUBREGIONS[i];
-        case "Africa":
-            africaList += aux === `${SUBREGIONS[i]}` ? `` : `${SUBREGIONS[i]}\n`;
-            aux = SUBREGIONS[i];
-        case "Oceania":
-            oceaniaList += aux === `${SUBREGIONS[i]}` ? `` : `${SUBREGIONS[i]}\n`;
-            aux = SUBREGIONS[i];
-        case "Asia":
-            asiaList += aux === `${SUBREGIONS[i]}` ? `` : `${SUBREGIONS[i]}\n`;
-            aux = SUBREGIONS[i];
-        case "Europe":
-            europaList += aux === `${SUBREGIONS[i]}` ? `` : `${SUBREGIONS[i]}\n`;
-            aux = SUBREGIONS[i];
-        default:
-            antarticList += aux === `${SUBREGIONS[i]}` ? `` : `${SUBREGIONS[i]}\n`;
-            aux = SUBREGIONS[i];
+const INDEX_REGIONS = 0;
+const INDEX_REGIONSINDEX = 1;
+const INDEX_REGIONSNAMES = 2;
+let tableRegionsGrouped = [];
+for (let i = 0; i < REGIONS.length; i++) {
+    let nameRegion = REGIONS[i];
+    let foundInTable = false;
+    let j = 0;
+    while (!foundInTable && j < tableRegionsGrouped.length) {
+        foundInTable = tableRegionsGrouped[j][INDEX_REGIONS] === nameRegion;
+        if (!foundInTable) {
+            j++;
+        }
+    }
+    if (!foundInTable) {
+        tableRegionsGrouped[tableRegionsGrouped.length] = [nameRegion, [i]];
+    }
+    else {
+        tableRegionsGrouped[j][1][tableRegionsGrouped[j][INDEX_REGIONSINDEX].length] = i;
     }
 }
-
-console.log(europaList);
+for (let regionGroup of tableRegionsGrouped) {
+    let tableSubregionsGrouped = [];
+    for (let indexRegions of regionGroup[INDEX_REGIONSINDEX]) {
+        let subregion = SUBREGIONS[indexRegions];
+        let foundInTable = false;
+        let j = 0;
+        while (!foundInTable && subregion != undefined && j < tableSubregionsGrouped.length) {
+            foundInTable = tableSubregionsGrouped[j] === subregion;
+            if (!foundInTable) {
+                j++;
+            }
+        }
+        if (!foundInTable && subregion != undefined) {
+            tableSubregionsGrouped[tableSubregionsGrouped.length] = subregion;
+        }
+    }
+    regionGroup[INDEX_REGIONSNAMES] = tableSubregionsGrouped;
+    let msg = `${regionGroup[INDEX_REGIONS]}:`;
+    for (let nameSubRegion of regionGroup[INDEX_REGIONSNAMES]) {
+        msg += `
+        ${nameSubRegion}`;
+    }
+    console.writeln(msg);
+}
