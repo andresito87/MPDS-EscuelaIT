@@ -1,0 +1,28 @@
+¿Qué diferencias existen entre una expresión y una sentencia?
+
+Una expresión siempre devuelve un valor(number,string,boolean,array,object,...) y una sentencia la usamos para realizar una acción
+(declarar una variable, uso de una estructura iterativa, uso de una función,etc). Las sentencias en Javascript siempre terminan con ;
+
+
+¿Qué criterio aplicas para escoger entre una sentencia while y do/while?
+
+Do/while lo uso cuando sé que al menos una primera vez voy a realizar la acción deseada y el while cuando tengo que realizar una
+iteración pero desconozco el número de veces que tengo que realizarla.
+
+
+¿Qué criterio aplicas para escoger entre una sentencia for y otra iterativa?
+
+Uso For cuando conozco el número de veces que voy a iterar.
+
+
+¿Qué diferencias existen entre los valores de tipo primitivo y los valores que no son de tipo primitivo, como los arrays?
+
+El array al ser un tipo de dato estructurado/compuesto permite almacenar un conjunto de valores bajo un único identificador, además, 
+a cada uno de esos valores dentro del array accedemos mediante un índice. Un valor de tipo primitivo solo puede ser un único valor de un tipo 
+primitivo (number, string, boolean, undefined) definido por un identificador.
+
+
+¿Qué diferencias existen entre los valores de tipo string y de tipo array?
+
+En javascript, los valores de tipo String son considerados inmutables, lo que quiere decir que se puede acceder a su lectura/asignación pero 
+no se pueden modificar. Los valores de tipo array permiten tanto la lectura/asignación como la modificación.
