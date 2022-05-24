@@ -4,7 +4,7 @@ const console = new Console();
 let randomCombination;
 let secretCombination;
 let gotWinner = false;
-let attemps = 3;
+let attemps = 10;
 secretCombination = `rgmc` //Hardcodeada para pruebas
 playGame();
 
