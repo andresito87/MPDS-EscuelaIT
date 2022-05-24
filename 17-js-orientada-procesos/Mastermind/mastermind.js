@@ -1,5 +1,6 @@
 const { Console } = require("console-mpds");
 const console = new Console();
+
 let randomCombination;
 let secretCombination;
 let gotWinner = false;
@@ -23,13 +24,13 @@ function playGame() {
         }
     } while (attemps > 0 && !gotWinner);
 
-
     function checkCombination() {
         if (randomCombination === secretCombination) {
             return true;
         }
         return false;
     }
+
     function getValidCombination() {
         let combination;
         let foundColor;
