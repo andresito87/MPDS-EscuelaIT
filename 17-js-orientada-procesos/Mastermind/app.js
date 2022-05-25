@@ -9,20 +9,19 @@ function playMasterMind() {
     } while (isResumed());
 
     function playGame() {
-        let randomCombination;
-        const secretCombination = `bycr` //Hardcodeada para pruebas
-        let gotWinner = false;
-        let attemps = 10;
+        let attemps = 0;
         let msg = ``;
-        const colors = [`r`, `g`, `y`, `b`, `m`, `c`];
+        let gotWinner = false;
+
         console.writeln(`----- MASTERMIND -----`)
 
         do {
-            randomCombination = getValidCombination();
-            if (checkCombination()) {
+            let combination;
+            combination = getValidCombination();
+            if (checkCombination(combination)) {
                 gotWinner = true;
                 console.writeln(`¡¡¡You've won!!! ;-)!!!`)
-            } else if (attemps === 0)
+            } else if (attemps === 10)
                 console.writeln(`¡¡¡You've lost!!! :-(!!!`)
             else {
                 console.writeln();
@@ -30,40 +29,42 @@ function playMasterMind() {
                 console.writeln(`*********`);
                 console.write(msg);
             }
-        } while (attemps > 0 && !gotWinner);
+        } while (attemps < 10 && !gotWinner);
 
-        function checkCombination() {
-            if (randomCombination === secretCombination)
+        function checkCombination(combination) {
+            const secretCombination = `bycr` //Hardcodeada para pruebas
+            if (combination === secretCombination)
                 return true;
             let blacks = 0;
             let whites = 0;
             for (i = 0; i <= 3; i++) {
                 for (j = 0; j <= 3; j++) {
-                    if (randomCombination[i] === secretCombination[i])
+                    if (combination[i] === secretCombination[i])
                         blacks++;
-                    else if (randomCombination[i] === secretCombination[j])
+                    else if (combination[i] === secretCombination[j])
                         whites++;
                 }
             }
-            msg += `${randomCombination} --> ${blacks / 4} blacks and ${whites} whites\n`;
+            msg += `${combination} --> ${blacks / 4} blacks and ${whites} whites\n`;
         }
 
         function getValidCombination() {
-            let combination;
+            let proposedCombination;
             let foundColor;
             let isValidCombination;
             do {
-                combination = console.readString(`Propose a combination:`);
-                if (combination.length != 4) {
+                proposedCombination = console.readString(`Propose a combination:`);
+                if (proposedCombination.length != 4) {
                     console.writeln(`Wrong proposed combination length`)
                 }
                 else {
                     isValidCombination = true;
+                    const colors = [`r`, `g`, `y`, `b`, `m`, `c`];
                     for (let i = 0; isValidCombination && i <= 3; i++) {
                         let j;
                         foundColor = false;
                         for (j = 0; j <= 5; j++) {
-                            if (combination[i] === colors[j]) {
+                            if (proposedCombination[i] === colors[j]) {
                                 foundColor = true;
                             }
                         }
@@ -75,8 +76,8 @@ function playMasterMind() {
                     }
                 }
             } while (!isValidCombination);
-            attemps--;
-            return combination;
+            attemps++;
+            return proposedCombination;
         }
     }
 }
