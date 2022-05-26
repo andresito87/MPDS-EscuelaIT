@@ -4,8 +4,10 @@ const console = new Console();
 playMasterMind();
 
 function playMasterMind() {
+    let player = 1;
     do {
         playGame();
+        player++;
     } while (isResumed());
 
     function playGame() {
@@ -22,10 +24,11 @@ function playMasterMind() {
             combination = getValidCombination();
             if (checkCombination(combination)) {
                 gotWinner = true;
-                console.writeln(`¡¡¡You've won!!! ;-)!!!`)
+                console.writeln(`¡¡¡Player ${player % 2 === 1 ? 1 : 2} You've won this round!!! ;-)!!!`)
             } else if (attemps === 10)
-                console.writeln(`¡¡¡You've lost!!! :-(!!!`)
+                console.writeln(`¡¡¡Player ${player % 2 === 1 ? 1 : 2} You've lost this round!!! :-(!!!`)
             else {
+                attemps++;
                 console.writeln(`\n${attemps} attempt(s): `);
                 console.writeln(`*********`);
                 console.write(msg);
@@ -33,18 +36,17 @@ function playMasterMind() {
         } while (attemps < 10 && !gotWinner);
 
         function getSecretCombination() {
-            let randomCombination = ``;
-            for (let k = 0; k < 4; k++) {
-                randomCombination += colors[parseInt(Math.random() * 6)];
-            }
-            return randomCombination;
+            console.writeln(`Hello Player ${player % 2 === 1 ? 1 : 2}, your work in this round will be easy`)
+            combination = console.readString(`¡¡¡Write the secret combination of colors (r, g, y, b, m, c)!!!`);
+            player++;
+            return combination;
         }
 
         function getValidCombination() {
             let proposedCombination;
             let isValidCombination;
             do {
-                proposedCombination = console.readString(`Propose a combination:`);
+                proposedCombination = console.readString(`Player ${player % 2 === 1 ? 1 : 2} Propose a combination:`);
                 if (proposedCombination.length != 4) {
                     console.writeln(`Wrong proposed combination length`)
                 }
@@ -65,7 +67,6 @@ function playMasterMind() {
                     }
                 }
             } while (!isValidCombination);
-            attemps++;
             return proposedCombination;
         }
 
@@ -92,7 +93,7 @@ function isResumed() {
     let answer;
     let error = false;
     do {
-        answer = console.readString(`Do you want to continue? (y/n): `);
+        answer = console.readString(`Player ${player % 2 === 0 ? 1 : 2} Do you want to continue the play? (y/n): `);
         result = answer === `y`;
         error = !result && answer !== `n`;
         if (error) {
