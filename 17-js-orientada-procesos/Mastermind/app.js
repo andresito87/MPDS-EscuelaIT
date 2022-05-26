@@ -10,8 +10,8 @@ function playMasterMind() {
 
     function playGame() {
         let attemps = 0;
-        let msg = ``;
         let gotWinner = false;
+        let msg = ``;
 
         console.writeln(`----- MASTERMIND -----`)
 
@@ -24,8 +24,7 @@ function playMasterMind() {
             } else if (attemps === 10)
                 console.writeln(`¡¡¡You've lost!!! :-(!!!`)
             else {
-                console.writeln();
-                console.writeln(`${attemps} attempt(s): `);
+                console.writeln(`\n${attemps} attempt(s): `);
                 console.writeln(`*********`);
                 console.write(msg);
             }
@@ -50,7 +49,6 @@ function playMasterMind() {
 
         function getValidCombination() {
             let proposedCombination;
-            let foundColor;
             let isValidCombination;
             do {
                 proposedCombination = console.readString(`Propose a combination:`);
@@ -62,7 +60,7 @@ function playMasterMind() {
                     const colors = [`r`, `g`, `y`, `b`, `m`, `c`];
                     for (let i = 0; isValidCombination && i <= 3; i++) {
                         let j;
-                        foundColor = false;
+                        let foundColor = false;
                         for (j = 0; j <= 5; j++) {
                             if (proposedCombination[i] === colors[j]) {
                                 foundColor = true;
@@ -71,8 +69,7 @@ function playMasterMind() {
                         if (!foundColor && j === colors.length) {
                             isValidCombination = false;
                             console.writeln(`Wrong colors, they must be: rgybmc`);
-                        } else if (foundColor && j <= colors.length)
-                            isValidCombination = true;
+                        }
                     }
                 }
             } while (!isValidCombination);
