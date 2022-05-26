@@ -9,6 +9,8 @@ function playMasterMind() {
     } while (isResumed());
 
     function playGame() {
+        const colors = [`r`, `g`, `y`, `b`, `m`, `c`];
+        const secretCombination = getSecretCombination();
         let attemps = 0;
         let gotWinner = false;
         let msg = ``;
@@ -30,21 +32,12 @@ function playMasterMind() {
             }
         } while (attemps < 10 && !gotWinner);
 
-        function checkCombination(combination) {
-            const secretCombination = `bycr` //Hardcodeada para pruebas
-            if (combination === secretCombination)
-                return true;
-            let blacks = 0;
-            let whites = 0;
-            for (i = 0; i <= 3; i++) {
-                for (j = 0; j <= 3; j++) {
-                    if (combination[i] === secretCombination[i])
-                        blacks++;
-                    else if (combination[i] === secretCombination[j])
-                        whites++;
-                }
+        function getSecretCombination() {
+            let randomCombination = ``;
+            for (let k = 0; k < 4; k++) {
+                randomCombination += colors[parseInt(Math.random() * 6)];
             }
-            msg += `${combination} --> ${blacks / 4} blacks and ${whites} whites\n`;
+            return randomCombination;
         }
 
         function getValidCombination() {
@@ -57,7 +50,6 @@ function playMasterMind() {
                 }
                 else {
                     isValidCombination = true;
-                    const colors = [`r`, `g`, `y`, `b`, `m`, `c`];
                     for (let i = 0; isValidCombination && i <= 3; i++) {
                         let j;
                         let foundColor = false;
@@ -75,6 +67,22 @@ function playMasterMind() {
             } while (!isValidCombination);
             attemps++;
             return proposedCombination;
+        }
+
+        function checkCombination(combination) {
+            if (combination === secretCombination)
+                return true;
+            let blacks = 0;
+            let whites = 0;
+            for (i = 0; i <= 3; i++) {
+                for (j = 0; j <= 3; j++) {
+                    if (combination[i] === secretCombination[i])
+                        blacks++;
+                    else if (combination[i] === secretCombination[j])
+                        whites++;
+                }
+            }
+            msg += `${combination} --> ${blacks / 4} blacks and ${whites} whites\n`;
         }
     }
 }
