@@ -4,22 +4,68 @@ const console = new Console();
 playDraughts();
 
 function playDraughts() {
-    let msg = ``;
-    console.writeln(`    ------- Draughts -------    `);
-    for (let i = 1; i <= 8; i++) {
-        for (let j = 1; j < 9; j++) {
-            if (j % 2 === 0 && i % 2 === 1 && i < 3)
-                msg += `| b `;
-            else if (j % 2 === 1 && i % 2 === 0)
-                msg += `|   `;
-            else if (j % 2 === 0 && i > 5)
-                msg += `| w `
-            else if (j % 2 === 1 && i > 5)
-                msg += `|   `
-            else if (i > 2 && i < 7 && j < 6)
-                msg += `|   `;
+    do {
+        playGame();
+    } while (isResumed());
+}
+function playGame() {
+
+    let board = [
+        [` `, `b`, ` `, `b`, ` `, `b`, ` `, `b`],
+        [`b`, ` `, `b`, ` `, `b`, ` `, `b`, ` `],
+        [` `, `b`, ` `, `b`, ` `, `b`, ` `, `b`],
+        [` `, ` `, ` `, ` `, ` `, ` `, ` `, ` `],
+        [` `, ` `, ` `, ` `, ` `, ` `, ` `, ` `],
+        [`w`, ` `, `w`, ` `, `w`, ` `, `w`, ` `],
+        [` `, `w`, ` `, `w`, ` `, `w`, ` `, `w`],
+        [`w`, ` `, `w`, ` `, `w`, ` `, `w`, ` `]
+    ];
+
+    let turn = `W`;
+    let movement = ``;
+    let isValidMove = false;
+}
+
+function isResumed() {
+    let resume = console.readString(`Do you want to continue? (y/n)`);
+    if (resume === `y`) {
+        return true;
+    } else if (resume === `n`) {
+        return false;
+    } else {
+        console.writeln(`Wrong option`);
+        return isResumed();
+    }
+}
+function isValidMove() {
+    if (isValidMove) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function movement() {
+    let movement = console.readString(`Movement:`);
+    if (movement.length === 2) {
+        let x = parseInt(movement[0]);
+        let y = parseInt(movement[1]);
+        if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
+            isValidMove = true;
+        } else {
+            console.writeln(`Wrong movement`);
+            isValidMove = false;
         }
-        console.writeln(msg + `|`);
-        msg = ``;
+    } else {
+        console.writeln(`Wrong movement`);
+        isValidMove = false;
+    }
+}
+
+function getturn() {
+    if (turn === `W`) {
+        turn = `B`;
+    } else {
+        turn = `W`;
     }
 }
