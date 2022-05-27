@@ -166,11 +166,3 @@ function prompt(message) {
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
-function getRandomMove(board, turn) {
-    let validMoves = getValidMoves(board, turn);
-    if (validMoves.length === 0) {
-        return ``;
-    }
-    let move = validMoves[getRandomInt(validMoves.length)];
-    return move;
-}
