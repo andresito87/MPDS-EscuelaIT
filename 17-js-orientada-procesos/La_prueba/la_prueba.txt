@@ -1,0 +1,18 @@
+1.Define el nombre y la responsabilidad "detallada" (cálculo/consulta o acción/alta+baja+modificación en memoria o RAM video)
+de una función que no tenga parámetros ni retorno.
+
+
+2.Define el nombre y la responsabilidad "detallada" (cálculo/consulta o acción/alta+baja+modificación en memoria o RAM video)
+de dos funciones que no tengan parámetros pero sí retorno.
+
+
+3.Define el nombre y la responsabilidad "detallada" (cálculo/consulta o acción/alta+baja+modificación en memoria o RAM video)
+de tres funciones que sí tengan parámetros pero no retorno.
+
+
+4.Define el nombre y la responsabilidad "detallada" (cálculo/consulta o acción/alta+baja+modificación en memoria o RAM video)
+de cuatro funciones que sí tenga parámetros y retorno.
+
+
+5.Define el nombre y la responsabilidad "detallada" de una función que realice un cálculo/consulta y una acción/alta+baja+modificación 
+en memoria o RAM video con libertad en presencia o no de parametros y retorno.
