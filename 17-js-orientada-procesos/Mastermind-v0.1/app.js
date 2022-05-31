@@ -1,16 +1,16 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-//MasterMind version 0.1: global functions with autogenerate secret combination
+//MasterMind version 0.1 with autogenerate secret combination without repeated colors
 
 playMastermind();
 
 function playMastermind() {
     do {
-        play();
+        playGame();
     } while (isResumed());
 
-    function play() {
+    function playGame() {
         const COLORS = ['r', 'g', 'y', 'b', 'm', 'c'];
         const COMBINATION_LENGTH = 4;
         const secretCombination = getSecretCombination(COLORS, COMBINATION_LENGTH);
@@ -18,7 +18,7 @@ function playMastermind() {
         let finished;
         showBoard(attempsResults);
         do {
-            finished = proposeCombination(secretCombination, attempsResults, COLORS);
+            finished = playRound(secretCombination, attempsResults, COLORS);
         } while (!finished);
     }
 
@@ -28,16 +28,19 @@ function playMastermind() {
         let error = false;
         do {
             answer = console.readString(`Do you want to continue? (y/n): `);
-            result = answer === `y`;
-            error = !result && answer !== `n`;
-            if (error) {
+            if (answer === 'y') {
+                result = true;
+            } else if (answer === 'n') {
+                result = false;
+            } else {
                 console.writeln(`Please, reply "y" or "n"`);
+                error = true;
             }
         } while (error);
         return result;
     }
 
-    function proposeCombination(secretCombination, attempsResults, COLORS) {
+    function playRound(secretCombination, attempsResults, COLORS) {
         let proposedCombination;
         let correctProposedCombination;
         do {
@@ -47,25 +50,22 @@ function playMastermind() {
 
         let success = checkProposedCombination(secretCombination, proposedCombination, attempsResults);
         showBoard(attempsResults);
-        return showResultGame(attempsResults, success);
+        return showResultRound(attempsResults, success);
     }
 
     function getSecretCombination(COLORS, COMBINATION_LENGTH) {
         let randomCombination;
-        let isRepeatedColor = false;
+        let isRepeatedColor;
         do {
+            isRepeatedColor = false;
             randomCombination = ``;
             for (let k = 0; k <= COMBINATION_LENGTH - 1; k++) {
                 randomCombination += COLORS[getRandomIndex(COLORS)];
             }
-            for (i = 0; i < COMBINATION_LENGTH - 1; i++) {
-                for (j = i + 1; j < COMBINATION_LENGTH; j++) {
-                    if (randomCombination[i] === randomCombination[j])
-                        isRepeatedColor = true;
-                    do {
-                        randomCombination[i] = randomCombination[getRandomIndex(COLORS)];
-                    } while (isRepeatedColor);
-                }
+
+            for (let i = 0; !isRepeatedColor && i < COMBINATION_LENGTH - 1; i++) {
+                if (isRepeated(randomCombination[i], randomCombination, i))
+                    isRepeatedColor = true;
             }
         } while (isRepeatedColor);
         console.writeln(randomCombination);
@@ -84,22 +84,22 @@ function playMastermind() {
     }
 
     function showAttempsResults(attempsResults) {
-        result = ""
+        result = ``;
         for (let i = 0; i < attempsResults.length; i++) {
             result += `\n${attempsResults[i]}`;
         }
         return result;
     }
 
-    function showResultGame(attempsResults, success) {
+    function showResultRound(attempsResults, success) {
         const MAX_ATTEMPT = 10;
-        const SUCCESS_ATTEMPT = "You've won!!! ;-)";
-        const MAX_ATTEMPT_REACHED = "You've lost!!! :-(";
+        const SUCCESS_ATTEMPT = `You've won!!! ;-)`;
+        const MAX_ATTEMPT_REACHED = `You've lost!!! :-(`;
         if (success) {
             console.writeln(SUCCESS_ATTEMPT);
             return success;
         } else {
-            let finished = attempsResults.length == MAX_ATTEMPT;
+            let finished = attempsResults.length === MAX_ATTEMPT;
             if (finished) {
                 console.writeln(MAX_ATTEMPT_REACHED);
             }
@@ -129,16 +129,16 @@ function playMastermind() {
         return correct;
     }
 
-    function isAColor(value, COLORS) {
+    function isAColor(proposedColor, COLORS) {
         let found = false;
         for (let i = 0; i < COLORS.length && !found; i++) {
-            found = COLORS[i] === value;
+            found = COLORS[i] === proposedColor;
         }
         return found;
     }
 
     function writeColors(COLORS) {
-        let colorsText = "";
+        let colorsText = ``;
         for (let i = 0; i < COLORS.length; i++) {
             colorsText += COLORS[i];
         }
@@ -158,22 +158,24 @@ function playMastermind() {
             }
         }
         attempsResults[attempsResults.length] = proposedCombination + ` --> ${black} blacks and ${white} whites`;
-        return black === secretCombination.length;
+        if (black === secretCombination.length) {
+            return true;
+        }
     }
 
-    function isRepeated(color, proposedCombination, indexColor) {
+    function isRepeated(proposedColor, proposedCombination, indexColor) {
         let repeated = false;
         for (let i = 0; i < proposedCombination.length && !repeated; i++) {
-            repeated = proposedCombination[i] === color && i !== indexColor;
+            repeated = proposedCombination[i] === proposedColor && i !== indexColor;
         }
         return repeated;
     }
 
-    function isOnWrongPosition(color, secretCombination) {
-        let found = false;
-        for (let i = 0; i < secretCombination.length && !found; i++) {
-            found = secretCombination[i] === color;
+    function isOnWrongPosition(proposedColor, secretCombination) {
+        let wrongPosition = false;
+        for (let i = 0; !wrongPosition && i < secretCombination.length; i++) {
+            wrongPosition = secretCombination[i] === proposedColor;
         }
-        return found;
+        return wrongPosition;
     }
 }
