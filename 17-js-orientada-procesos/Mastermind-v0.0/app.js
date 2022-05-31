@@ -1,7 +1,7 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-//MasterMind-v0.0 Local functions are recomennded
+//MasterMind-v0.0
 
 playMasterMind();
 
