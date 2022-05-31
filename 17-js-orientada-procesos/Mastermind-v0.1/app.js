@@ -3,7 +3,6 @@ const console = new Console();
 
 //MasterMind version 0.1 with autogenerate secret combination without repeated colors
 
-
 playMastermind();
 
 function playMastermind() {
