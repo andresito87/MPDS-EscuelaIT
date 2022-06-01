@@ -10,12 +10,12 @@ function playMastermind() {
     let rounds = 0;
     let wonRounds = 0;
     do {
-        playRoundGame();
+        playGame();
         rounds++;
     } while (isResumed());
     showFinalResults(rounds, wonRounds);
 
-    function playRoundGame() {
+    function playGame() {
         const COLORS = ['r', 'g', 'y', 'b', 'm', 'c'];
         const COMBINATION_LENGTH = 4;
         const secretCombination = getSecretCombination(COLORS, COMBINATION_LENGTH);
@@ -23,7 +23,7 @@ function playMastermind() {
         let finished;
         showBoard(attempsResults);
         do {
-            finished = playRound(secretCombination, attempsResults, COLORS);
+            finished = playAttemp(secretCombination, attempsResults, COLORS);
         } while (!finished);
     }
 
@@ -42,7 +42,7 @@ function playMastermind() {
         return result;
     }
 
-    function playRound(secretCombination, attempsResults, COLORS) {
+    function playAttemp(secretCombination, attempsResults, COLORS) {
         let proposedCombination;
         let correctProposedCombination;
         do {
@@ -69,7 +69,6 @@ function playMastermind() {
                     isRepeatedColor = true;
             }
         } while (isRepeatedColor);
-        console.writeln(randomCombination);
         return randomCombination;
     }
 
