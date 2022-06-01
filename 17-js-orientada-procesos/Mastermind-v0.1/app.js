@@ -69,7 +69,6 @@ function playMastermind() {
                     isRepeatedColor = true;
             }
         } while (isRepeatedColor);
-        console.writeln(randomCombination);
         return randomCombination;
     }
 
