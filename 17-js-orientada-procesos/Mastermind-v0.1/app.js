@@ -18,7 +18,7 @@ function playMastermind() {
     function playGame() {
         const COLORS = ['r', 'g', 'y', 'b', 'm', 'c'];
         const COMBINATION_LENGTH = 4;
-        const secretCombination = makeSecretCombination(COLORS, COMBINATION_LENGTH);
+        const secretCombination = generateSecretCombination(COLORS, COMBINATION_LENGTH);
         let attempsResults = [];
         let finished;
         showBoard(attempsResults);
@@ -54,7 +54,7 @@ function playMastermind() {
         return showResultRound(attempsResults, success);
     }
 
-    function makeSecretCombination(COLORS, COMBINATION_LENGTH) {
+    function generateSecretCombination(COLORS, COMBINATION_LENGTH) {
         let randomCombination;
         let isRepeatedColor;
         do {
