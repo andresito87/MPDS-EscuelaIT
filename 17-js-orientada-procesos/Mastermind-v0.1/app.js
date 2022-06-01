@@ -1,16 +1,21 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-//MasterMind version 0.1 with autogenerate secret combination without repeated colors
+//MasterMind v0.1 with autogenerate secret combination without repeated colors 
+//and showing final results
 
 playMastermind();
 
 function playMastermind() {
+    let rounds = 0;
+    let wonRounds = 0;
     do {
-        playGame();
+        playRoundGame();
+        rounds++;
     } while (isResumed());
+    showFinalResults(rounds, wonRounds);
 
-    function playGame() {
+    function playRoundGame() {
         const COLORS = ['r', 'g', 'y', 'b', 'm', 'c'];
         const COMBINATION_LENGTH = 4;
         const secretCombination = getSecretCombination(COLORS, COMBINATION_LENGTH);
@@ -28,13 +33,10 @@ function playMastermind() {
         let error = false;
         do {
             answer = console.readString(`Do you want to continue? (y/n): `);
-            if (answer === 'y') {
-                result = true;
-            } else if (answer === 'n') {
-                result = false;
-            } else {
+            result = answer === `y`;
+            error = !result && answer !== `n`;
+            if (error) {
                 console.writeln(`Please, reply "y" or "n"`);
-                error = true;
             }
         } while (error);
         return result;
@@ -47,7 +49,6 @@ function playMastermind() {
             proposedCombination = console.readString(`Propose a combination: `);
             correctProposedCombination = validateProposedCombination(proposedCombination, COLORS, secretCombination.length);
         } while (!correctProposedCombination);
-
         let success = checkProposedCombination(secretCombination, proposedCombination, attempsResults);
         showBoard(attempsResults);
         return showResultRound(attempsResults, success);
@@ -93,10 +94,11 @@ function playMastermind() {
 
     function showResultRound(attempsResults, success) {
         const MAX_ATTEMPT = 10;
-        const SUCCESS_ATTEMPT = `You've won!!! ;-)`;
-        const MAX_ATTEMPT_REACHED = `You've lost!!! :-(`;
+        const SUCCESS_ATTEMPT = `You've won this round!!! ;-)`;
+        const MAX_ATTEMPT_REACHED = `You've lost this round!!! :-(`;
         if (success) {
             console.writeln(SUCCESS_ATTEMPT);
+            wonRounds++;
             return success;
         } else {
             let finished = attempsResults.length === MAX_ATTEMPT;
@@ -107,11 +109,11 @@ function playMastermind() {
         }
     }
 
-    function validateProposedCombination(proposedCombination, COLORS, secretCombinationLength) {
+    function validateProposedCombination(proposedCombination, COLORS, COMBINATION_LENGTH) {
         const WRONG_LENGTH_ERROR = `Wrong proposed combination length`;
         const WRONG_COLOR_ERROR = `Wrong colors, they must be: ${writeColors(COLORS)}`;
         const REPEATED_COLOR_ERROR = `Wrong proposed combination, at least one color is repeated`;
-        let correct = proposedCombination.length === secretCombinationLength;
+        let correct = proposedCombination.length === COMBINATION_LENGTH;
         if (!correct) {
             console.writeln(WRONG_LENGTH_ERROR);
         }
@@ -178,4 +180,13 @@ function playMastermind() {
         }
         return wrongPosition;
     }
+
+    function showFinalResults(rounds, wonRounds) {
+        console.writeln(`\n****** FINAL RESULT ******\n`);
+        console.writeln(`Total rounds: ${rounds}`);
+        console.writeln(`Won rounds: ${wonRounds}`);
+        console.writeln(`Lost rounds: ${rounds - wonRounds}`);
+        console.writeln(`\n****** END ******\n`);
+    }
+
 }
