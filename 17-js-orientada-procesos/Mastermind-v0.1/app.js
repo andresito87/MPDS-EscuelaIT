@@ -61,7 +61,7 @@ function playMastermind() {
             isRepeatedColor = false;
             randomCombination = ``;
             for (let k = 0; k <= COMBINATION_LENGTH - 1; k++) {
-                randomCombination += COLORS[calculateRandomColor(COLORS)];
+                randomCombination += COLORS[generateRandomColor(COLORS)];
             }
 
             for (let i = 0; !isRepeatedColor && i < COMBINATION_LENGTH - 1; i++) {
@@ -72,7 +72,7 @@ function playMastermind() {
         return randomCombination;
     }
 
-    function calculateRandomColor(COLORS) {
+    function generateRandomColor(COLORS) {
         return parseInt(Math.random() * COLORS.length);
     }
 
