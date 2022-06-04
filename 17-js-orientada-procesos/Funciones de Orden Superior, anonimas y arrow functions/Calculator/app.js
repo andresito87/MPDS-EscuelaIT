@@ -1,39 +1,37 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-// Orden Superior funciones anonimas arrow functions
+// Calculator with higher order function and arrow functions
 
-let firstNumber = console.readNumber("Ingrese el primer numero: ");
-let secondNumber = console.readNumber("Ingrese el segundo numero: ");
-let operation = console.readString("Ingrese la operacion a realizar: ");
+const firstNumber = console.readNumber("Ingrese el primer numero: ");
+const secondNumber = console.readNumber("Ingrese el segundo numero: ");
+let isOperation;
 
-function sum(a, b) {
-    return a + b;
-}
-function subtract(a, b) {
-    return a - b;
-}
-function multiply(a, b) {
-    return a * b;
-}
-function divide(a, b) {
-    return a / b;
-}
+do {
+    let symbolOperation = console.readString("Ingrese la operacion a realizar: ");
+    isOperation = true;
 
-function Calculate(operation, firstNumber, secondNumber) {
-    switch (operation) {
+    switch (symbolOperation) {
         case "+":
-            return sum(firstNumber, secondNumber);
+            showCalculate(firstNumber, secondNumber, symbolOperation, (a, b) => a + b);
+            break;
         case "-":
-            return subtract(firstNumber, secondNumber);
+            showCalculate(firstNumber, secondNumber, symbolOperation, (a, b) => a - b);
+            break;
         case "*":
-            return multiply(firstNumber, secondNumber);
+            showCalculate(firstNumber, secondNumber, `x`, (a, b) => a * b);
+            break;
         case "/":
-            return divide(firstNumber, secondNumber);
+            showCalculate(firstNumber, secondNumber, symbolOperation, (a, b) => a / b);
+            break;
+        default:
+            console.writeln("Operacion no valida");
+            isOperation = false;
+            break;
     }
+} while (!isOperation);
+
+function showCalculate(number1, number2, symbolOperation, operation) {
+    console.writeln(`${number1} ${symbolOperation} ${number2} = ${operation(number1, number2)}`);
 }
-
-console.writeln(Calculate(operation, firstNumber, secondNumber));
-
-
 
