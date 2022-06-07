@@ -42,7 +42,7 @@ function playMasterMind() {
             do {
                 isRepeatedColor = false;
                 randomCombination = ``;
-                for (let k = 0; k <= COMBINATION_LENGTH - 1; k++) {
+                for (let k = 0; k < COMBINATION_LENGTH; k++) {
                     randomCombination += COLORS[generateRandomColor(COLORS)];
                 }
 
@@ -60,7 +60,7 @@ function playMasterMind() {
 
         function isRepeated(proposedColor, proposedCombination, indexColor) {
             let repeated = false;
-            for (let i = 0; i < proposedCombination.length && !repeated; i++) {
+            for (let i = 0; !repeated && i < proposedCombination.length; i++) {
                 repeated = proposedCombination[i] === proposedColor && i !== indexColor;
             }
             return repeated;
@@ -99,7 +99,6 @@ function playMasterMind() {
                         isValidCombination = false;
                         console.writeln(`Repeated color ${proposedCombination[i]} try again`);
                     }
-
                 }
             } while (!isValidCombination);
             attemps++;
