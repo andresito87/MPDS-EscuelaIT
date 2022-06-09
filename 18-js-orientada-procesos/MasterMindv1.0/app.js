@@ -16,9 +16,7 @@ function playMasterMind() {
         const MAX_ATTEMPTS = 10;
         let board = [];
         const secretCombination = generateSecretCombination(COLORS, COMBINATION_LENGTH);
-
         console.writeln(`----- MASTERMIND -----`)
-
         do {
             combination = askValidProposedCombination(COLORS, COMBINATION_LENGTH);
             board.push(getAttempResults(combination, secretCombination));
@@ -31,7 +29,6 @@ function playMasterMind() {
                 console.writeln(`¡¡¡You've lost!!! :-(!!!`);
             }
         } while (board.length < MAX_ATTEMPTS && board[board.length - 1][1] !== 4);
-
         function showResults(board) {
             for (let i = 0; i < board.length; i++) {
                 console.write(`${board[i][0]} -- > ${board[i][1]} blacks and ${board[i][2]} whites\n`);;
