@@ -16,16 +16,14 @@ function playMasterMind() {
         const MAX_ATTEMPTS = 10;
         let board = [];
         const secretCombination = generateSecretCombination(COLORS, COMBINATION_LENGTH);
-        console.writeln(secretCombination);
 
         console.writeln(`----- MASTERMIND -----`)
-
 
         do {
             combination = askValidProposedCombination(COLORS, COMBINATION_LENGTH);
             board.push(getAttempResults(combination, secretCombination));
             console.writeln(`\n${board.length} attempt(s): `);
-            console.writeln(`*********`);
+            console.writeln(`****`);
             showResults(board);
             if (board[board.length - 1][1] === 4) {
                 console.writeln(`¡¡¡You've won!!! ;-)!!!`);
