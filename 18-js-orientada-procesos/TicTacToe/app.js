@@ -5,10 +5,45 @@ playTicTacToe();
 
 function playTicTacToe() {
     do {
-        playGame();
+        const gameMode = askGameMode();
+        playGame(gameMode);
     } while (isResumed());
 
-    function playGame() {
+    function askGameMode() {
+        let error = false;
+
+        function generateRandomPosition() {
+            position = parseInt(Math.random() * 3) + 1;
+            return position;
+        }
+
+        function askPosition(title) {
+            position = console.readNumber(`${title}: `);
+            return position;
+        }
+
+        let response = console.readNumber(`Dime el modo de juego:\
+        (0) CPU vs CPU,(1) Humano vs CPU,(2) Humano vs Humano`);
+        let mode = [];
+        switch (response) {
+            case 0:
+                mode = [generateRandomPosition, generateRandomPosition];
+                break;
+            case 1:
+                mode = [askPosition, generateRandomPosition];
+                break;
+            case 2:
+                mode = [askPosition, askPosition];
+                break;
+            default:
+                console.error(`El modo de juego ${response} no existe`);
+                error = true;
+                break;
+        } while (error);
+        return mode;
+    }
+
+    function playGame(gameMode) {
         const MAX_PLAYERS = 2;
         const MAX_TOKENS = 3;
         const TOKEN_EMPTY = ` `;
@@ -38,8 +73,8 @@ function playTicTacToe() {
             const movement = getNumTokens(tokens) === MAX_PLAYERS * MAX_TOKENS;
             if (movement) {
                 do {
-                    originRow = read(`Fila origen`);
-                    originColumn = read(`Columna destino`);
+                    originRow = read(`Fila origen`, gameMode, turn);
+                    originColumn = read(`Columna destino`, gameMode, turn);
                     error = !isOccupied(tokens, originRow, originColumn, turn);
                     if (error) {
                         console.writeln(`No hay una ficha de la propiedad de ${getToken(turn)}`);
@@ -49,8 +84,8 @@ function playTicTacToe() {
             let targetRow;
             let targetColumn;
             do {
-                targetRow = read(`Fila destino`);
-                targetColumn = read(`Columna destino`);
+                targetRow = read(`Fila destino`, gameMode, turn);
+                targetColumn = read(`Columna destino`, gameMode, turn);
                 error = !isEmpty(tokens, targetRow, targetColumn);
                 if (error) {
                     console.writeln(`Indique una celda vacía`);
@@ -74,16 +109,22 @@ function playTicTacToe() {
             return MAX_TOKENS ** 2 - empties;
         }
 
-        function read(title) {
+        function read(title, gameMode, turn) {
             let position;
             let error;
             do {
-                position = console.readNumber(`${title}: `);
-                error = position < 1 || 3 < position;
+                if (turn % 2 === 0) {
+                    position = gameMode[0](title);
+                    error = position < 1 || 3 < position;
+                } else {
+                    position = gameMode[1](title);
+                    error = position < 1 || 3 < position;
+                }
                 if (error) {
                     console.writeln(`Por favor un numero entre 1 y ${MAX_TOKENS} inclusives`)
                 }
             } while (error);
+            console.writeln(position);
             return position - 1;
         }
 
@@ -158,7 +199,7 @@ function playTicTacToe() {
         let answer;
         let error = false;
         do {
-            answer = console.readString(`¿Quieres jugar otra partida? `);
+            answer = console.readString(`¿Quieres jugar otra partida? "si" o "no" `);
             result = answer === `si`;
             error = !result && answer !== `no`;
             if (error) {
