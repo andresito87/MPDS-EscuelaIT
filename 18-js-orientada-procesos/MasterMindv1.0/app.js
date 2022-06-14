@@ -21,7 +21,7 @@ function playMasterMind() {
             const proposedCombination = askValidCombination(COLORS, COMBINATION_LENGTH);
             const resultsProposedCombination = getResults(proposedCombination, secretCombination);
             board = updateBoard(resultsProposedCombination, board);
-            showBoard(board);
+            printBoard(board);
             if (board[board.length - 1][1] === COMBINATION_LENGTH) {
                 isWinner = true;
                 console.writeln(`¡¡¡You've won!!! ;-)!!!`);
@@ -32,11 +32,14 @@ function playMasterMind() {
 
         function updateBoard(resultsProposedCombination, board) {
             let newBoard = [];
-            newBoard = [...board, [resultsProposedCombination[0], resultsProposedCombination[1], resultsProposedCombination[2]]];
+            newBoard = [...board,
+            [resultsProposedCombination[0],
+            resultsProposedCombination[1],
+            resultsProposedCombination[2]]];
             return newBoard;
         }
 
-        function showBoard(board) {
+        function printBoard(board) {
             console.writeln(`\n${board.length} attempt(s): `);
             console.writeln(`****`);
             for (let i = 0; i < board.length; i++) {
@@ -125,17 +128,14 @@ function playMasterMind() {
     }
 
     function isResumed() {
-        let result;
         let error = false;
         do {
             answer = console.readString(`Do you want to continue?(y / n): `);
-            if (answer === `y` || answer === `n`) {
-                result = answer === `y` ? true : false;
-            } else {
+            if (answer !== `y` || answer !== `n`) {
                 error = true;
                 console.writeln(`Please, answer "y" o "n"`);
             }
         } while (error);
-        return result;
+        return answer === `y` ? true : false;
     }
 }
