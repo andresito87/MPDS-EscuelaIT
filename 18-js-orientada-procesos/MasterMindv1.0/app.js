@@ -35,6 +35,7 @@ function playMasterMind() {
             newBoard = [...board, [resultsProposedCombination[0], resultsProposedCombination[1], resultsProposedCombination[2]]];
             return newBoard;
         }
+
         function showBoard(board) {
             console.writeln(`\n${board.length} attempt(s): `);
             console.writeln(`****`);
@@ -42,6 +43,7 @@ function playMasterMind() {
                 console.write(`${board[i][0]} -- > ${board[i][1]} blacks and ${board[i][2]} whites\n`);;
             }
         }
+
         function generateSecretCombination(COLORS, COMBINATION_LENGTH) {
             let randomCombination;
             let isRepeatedColor;
@@ -62,6 +64,7 @@ function playMasterMind() {
             } while (isRepeatedColor);
             return randomCombination;
         }
+
         function askValidCombination(COLORS, COMBINATION_LENGTH) {
             let combination, isWrongLenght, isInvalidColorsCombination, isRepeatedColor;
             do {
@@ -86,6 +89,7 @@ function playMasterMind() {
             } while (isInvalidColorsCombination || isRepeatedColor || isWrongLenght);
             return combination;
         }
+
         function isRepeated(combination, indexColor) {
             let repeated = false;
             for (let i = 0; !repeated && i < combination.length; i++) {
@@ -93,6 +97,7 @@ function playMasterMind() {
             }
             return repeated;
         }
+
         function isCorrectColor(color, COLORS) {
             let correctColor = false;
             for (let i = 0; !correctColor && i < COLORS.length; i++) {
@@ -100,6 +105,7 @@ function playMasterMind() {
             }
             return correctColor;
         }
+
         function getResults(proposedCombination, secretCombination) {
             let msg = [];
             let blacks = 0;
@@ -117,6 +123,7 @@ function playMasterMind() {
             return msg;
         }
     }
+
     function isResumed() {
         let result;
         let error = false;
