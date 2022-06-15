@@ -15,8 +15,9 @@ function playMasterMind() {
         let board = [];
         let isWinner = false;
         const secretCombination = generateSecretCombination(COLORS, COMBINATION_LENGTH);
-        console.writeln(secretCombination);
+
         console.writeln(`----- MASTERMIND -----`)
+
         do {
             const proposedCombination = askValidCombination(COLORS, COMBINATION_LENGTH);
             const resultsProposedCombination = getResults(proposedCombination, secretCombination);
