@@ -69,19 +69,19 @@ function playMasterMind() {
         }
 
         function askValidCombination(COLORS, COMBINATION_LENGTH) {
-            let combination, isWrongLenght, isInvalidColorsCombination, isRepeatedColor;
+            let combination, isWrongLenght, isWrongColorsCombination, isRepeatedColor;
             do {
                 combination = console.readString(`Propose a combination:`);
                 isWrongLenght = false;
-                isInvalidColorsCombination = false;
+                isWrongColorsCombination = false;
                 isRepeatedColor = false;
                 if (combination.length != COMBINATION_LENGTH) {
                     isWrongLenght = true;
                     console.writeln(`Wrong proposed combination length`)
                 } else {
-                    for (let i = 0; !isInvalidColorsCombination && !isRepeatedColor && i < COMBINATION_LENGTH; i++) {
+                    for (let i = 0; !isWrongColorsCombination && !isRepeatedColor && i < COMBINATION_LENGTH; i++) {
                         if (isCorrectColor(combination[i], COLORS) == false) {
-                            isInvalidColorsCombination = true;
+                            isWrongColorsCombination = true;
                             console.writeln(`Wrong color, they must be: rgybmc`);
                         } else if (isRepeated(combination, i) == true) {
                             isRepeatedColor = true;
@@ -89,7 +89,7 @@ function playMasterMind() {
                         }
                     }
                 }
-            } while (isInvalidColorsCombination || isRepeatedColor || isWrongLenght);
+            } while (isWrongColorsCombination || isRepeatedColor || isWrongLenght);
             return combination;
         }
 
@@ -131,7 +131,7 @@ function playMasterMind() {
         let error = false;
         do {
             answer = console.readString(`Do you want to continue?(y / n): `);
-            if (answer !== `y` || answer !== `n`) {
+            if (answer !== `y` && answer !== `n`) {
                 error = true;
                 console.writeln(`Please, answer "y" o "n"`);
             }

@@ -11,19 +11,8 @@ function playTicTacToe() {
 
     function askGameMode() {
         let error = false;
-
-        function generateRandomPosition() {
-            position = parseInt(Math.random() * 3) + 1;
-            return position;
-        }
-
-        function askPosition(title) {
-            position = console.readNumber(`${title}: `);
-            return position;
-        }
-
-        let response = console.readNumber(`Dime el modo de juego:\
-        (0) CPU vs CPU,(1) Humano vs CPU,(2) Humano vs Humano`);
+        let response = console.readNumber(`Dime el modo de juego:
+        (0) Demo-Game, (1) Player Vs CPU, (2) Player Vs Player`);
         let mode = [];
         switch (response) {
             case 0:
@@ -40,6 +29,16 @@ function playTicTacToe() {
                 error = true;
                 break;
         } while (error);
+
+        function generateRandomPosition() {
+            position = parseInt(Math.random() * 3) + 1;
+            return position;
+        }
+
+        function askPosition(title) {
+            position = console.readNumber(`${title}: `);
+            return position;
+        }
         return mode;
     }
 
@@ -124,7 +123,6 @@ function playTicTacToe() {
                     console.writeln(`Por favor un numero entre 1 y ${MAX_TOKENS} inclusives`)
                 }
             } while (error);
-            console.writeln(position);
             return position - 1;
         }
 
