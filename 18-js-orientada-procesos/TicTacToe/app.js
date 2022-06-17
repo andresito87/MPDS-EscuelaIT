@@ -47,7 +47,7 @@ function playTicTacToe() {
         let winner;
         do {
             writelnTokens(tokens);
-            placeToken(tokens, turn);
+            placeToken(gameMode, tokens, turn);
             winner = isTicTacToe(tokens, turn);
             if (!winner) {
                 turn = nextTurn(turn);
@@ -56,7 +56,7 @@ function playTicTacToe() {
         writelnTokens(tokens);
         console.writeln(`Victoria para ${getToken(turn)}`);
 
-        function placeToken(tokens, turn) {
+        function placeToken(gameMode, tokens, turn) {
             console.writeln(`Turno para ${getToken(turn)}`);
             let error;
             let originRow;
