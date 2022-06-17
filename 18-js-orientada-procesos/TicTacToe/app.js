@@ -5,42 +5,38 @@ playTicTacToe();
 
 function playTicTacToe() {
     do {
-        const gameMode = askGameMode();
-        playGame(gameMode);
+        const MAX_TOKENS = 3;
+        const gameMode = askGameMode(MAX_TOKENS);
+        playGame(gameMode, MAX_TOKENS);
     } while (isResumed());
 
-    function askGameMode() {
+    function askGameMode(MAX_TOKENS) {
+        const gameModes = [[generateRandomPosition, generateRandomPosition],
+        [askPosition, generateRandomPosition],
+        [askPosition, askPosition]];
         let error = false;
         do {
             let response = console.readNumber(`Dime el modo de juego:
-        (0) Demo-Game, (1) Player Vs CPU, (2) Player Vs Player`);
-
-            switch (response) {
-                case 0:
-                    return [generateRandomPosition, generateRandomPosition];
-                case 1:
-                    return [askPosition, generateRandomPosition];
-                case 2:
-                    return [askPosition, askPosition];
+            (0) Demo-Game, (1) Player Vs CPU, (2) Player Vs Player`);
+            if (response === 0 || response === 1 || response === 2) {
+                return gameModes[response];
+            } else {
+                console.writeln(`El modo de juego ${response} no existe`);
+                error = true;
             }
-            console.writeln(`El modo de juego ${response} no existe`);
-            error = true;
         } while (error);
 
         function generateRandomPosition() {
-            position = parseInt(Math.random() * 3) + 1;
-            return position;
+            return parseInt(Math.random() * MAX_TOKENS) + 1;
         }
 
         function askPosition(title) {
-            position = console.readNumber(`${title}: `);
-            return position;
+            return console.readNumber(`${title}: `);
         }
     }
 
-    function playGame(gameMode) {
+    function playGame(gameMode, MAX_TOKENS) {
         const MAX_PLAYERS = 2;
-        const MAX_TOKENS = 3;
         const TOKEN_EMPTY = ` `;
         let tokens = [
             [TOKEN_EMPTY, TOKEN_EMPTY, TOKEN_EMPTY],
