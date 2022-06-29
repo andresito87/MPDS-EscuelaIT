@@ -16,29 +16,24 @@ isAfirmative(),
 isNegative()
 }
 
-object combination{
+object proposedCombination{
 proposedCombinations,
-readCombination()
+read()
 isCorrectLenght(),
 isCorrectColor(),
 isRepeatColor()
 }
 
-object result{
-blacks,
-whites
-}
-
-object secret{
+object secretCombination{
+secretCombination,
+setSecretCombination()
 calculateResult()
 isWinner()
 }
 
 game .left.> yesOrNoContinue
-game *-down-> result
-game *-down-> secret 
-game *-down-> combination 
-secret -right-> result
-secret -left-> combination
+game *-down-> secretCombination 
+game *-down-> proposedCombination 
+secretCombination -left-> proposedCombination
 
 @enduml

@@ -22,7 +22,7 @@ function initGame() {
 
         play() {
             console.writeln(`----- MASTERMIND -----`);
-            this.secretCombination.setCombination(this.COLORS, this.COMBINATION_LENGTH);
+            this.secretCombination.setSecretCombination(this.COLORS, this.COMBINATION_LENGTH);
             let gameFinished = false;
             do {
                 this.proposedCombination.read(`Propose a combination:`, this.COLORS, this.COMBINATION_LENGTH);
@@ -55,7 +55,7 @@ function initSecretCombination() {
     return {
         secretCombination: ``,
 
-        setCombination(COLORS, COMBINATION_LENGTH) {
+        setSecretCombination(COLORS, COMBINATION_LENGTH) {
             let randomCombination = ``;
             do {
                 let randomColor = COLORS[this.generateRandomIndex(COLORS)];
