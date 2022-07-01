@@ -5,174 +5,189 @@ playConnectFour();
 
 function playConnectFour() {
     let continueDialog = initYesNoDialog(`Do you want to continue?(y / n): `);
-    let board = [];
-    let rowNum = 6;
-    let colNum = 7;
-    let totalMovesLeft = rowNum * colNum;
     do {
-        console.writeln(`Welcome to Connect 4 \n`);
+        const game = initGame();
+        let isWinner = false;
+        game.welcome();
+        do {
+            game.readMovement("X");
+            game.setMovement("X")
+            if (game.isConnectFour("X")) {
+                console.writeln(" Player X WINS!");
+                isWinner = true;
+            } else {
+                game.readMovement("O");
+                game.setMovement("O");
+                if (game.isConnectFour("O")) {
+                    console.writeln("Player O WINS!");
+                    isWinner = true;
+                }
+            }
+            if (game.totalMovesLeft === 0) {
+                console.writeln("It's a TIE!");
+            }
+        } while (game.totalMovesLeft > 0 || isWinner === false);
+        continueDialog.read();
+    } while (continueDialog.isAffirmative());
+}
 
-        board = [["*", "1", "2", "3", "4", "5", "6", "7"],
+function initGame() {
+    let game = {
+        board: [["*", "1", "2", "3", "4", "5", "6", "7"],
         ["1", "_", "_", "_", "_", "_", "_", "_"],
         ["2", "_", "_", "_", "_", "_", "_", "_"],
         ["3", "_", "_", "_", "_", "_", "_", "_"],
         ["4", "_", "_", "_", "_", "_", "_", "_"],
         ["5", "_", "_", "_", "_", "_", "_", "_"],
-        ["6", "_", "_", "_", "_", "_", "_", "_"]];
+        ["6", "_", "_", "_", "_", "_", "_", "_"]],
+        rowNum: 6,
+        colNum: 7,
+        totalMovesLeft: this.rowNum * this.colNum,
+        adjustCol: undefined,
+        adjustRow: undefined,
 
-        for (let row = 0; row < rowNum + 1; row++) {
-            console.writeln(board[row]);
-        }
-        let result = false;
-        do {
-            result = play("X", board, rowNum, colNum);
-            if (result) {
-                console.writeln(" Player X WINS!");
-            } else {
-                result = play("O", board, rowNum, colNum);
-                if (result) {
-                    console.writeln("Player O WINS!");
+        welcome() {
+            console.writeln(`Welcome to Connect 4 \n`)
+            for (let row = 0; row < this.rowNum + 1; row++) {
+                console.writeln(this.board[row]);
+            }
+        },
+
+        readMovement(color) {
+            let correctColumn;
+            do {
+                correctColumn = true;
+                this.move = console.readNumber(`Player ${color} Select column between (1 - 7)`);
+                if (1 > this.move || this.move > 7) {
+                    console.writeln("Remenber columns between 1 and 7");
+                    correctColumn = false;
+                } else if (this.board[1][this.move] !== "_") {
+                    console.writeln("Column is full");
+                    correctColumn = false;
+                }
+            } while (!correctColumn);
+        },
+
+        setMovement(color) {
+            this.adjustCol = this.move;
+            this.adjustRow = 1;
+            this.rowNum = 7;
+
+            for (let row = 0; row < this.rowNum; row++) {
+                if (this.board[row][this.adjustCol] === "_") {
+                    this.adjustRow = row;
                 }
             }
-            if (totalMovesLeft === 0) {
-                console.writeln("It's a TIE!");
+            this.totalMovesLeft--;
+            this.board[this.adjustRow][this.adjustCol] = color;
+        },
+
+        isConnectFour(color) {
+            let fourCheckVert = 1;
+            let distFromBottom = this.rowNum - 1 - this.adjustRow;
+            let distFromTop = this.adjustRow;
+
+            for (let check = 1; check <= distFromBottom; check++) {
+                if (distFromBottom > 0) {
+                    if (this.board[this.adjustRow + check][this.adjustCol] === color) {
+                        fourCheckVert++;
+                    } else {
+                        break;
+                    }
+                }
             }
-            totalMovesLeft--;
-        } while (totalMovesLeft > 0 && result === false);
-        continueDialog.read();
 
-    } while (continueDialog.isAffirmative());
-}
-
-function play(color, board, rowNum, colNum) {
-    let move;
-    let correctColumn;
-    do {
-        correctColumn = true;
-        move = console.readNumber(`Player ${color} Select column between (1 - 7)`);
-        if (1 > move || move > 7) {
-            console.writeln("Remenber columns between 1 and 7");
-            correctColumn = false;
-        } else if (board[1][move] !== "_") {
-            console.writeln("Column is full");
-            correctColumn = false;
-        }
-    } while (!correctColumn);
-
-    let adjustCol = move;
-    let adjustRow = 1;
-    rowNum = rowNum + 1;
-
-    for (let row = 0; row < rowNum; row++) {
-        if (board[row][adjustCol] === "_") {
-            adjustRow = row;
-        }
-    }
-
-    board[adjustRow][adjustCol] = color;
-
-    let fourCheckVert = 1;
-
-    let distFromBottom = rowNum - 1 - adjustRow;
-    let distFromTop = adjustRow;
-
-    for (let check = 1; check <= distFromBottom; check++) {
-        if (distFromBottom > 0) {
-            if (board[adjustRow + check][adjustCol] === color) {
-                fourCheckVert++;
-            } else {
-                break;
+            for (let check = 1; check <= distFromTop; check++) {
+                if (distFromTop > 0) {
+                    if (this.board[this.adjustRow - check][this.adjustCol] === color) {
+                        fourCheckVert++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    for (let check = 1; check <= distFromTop; check++) {
-        if (distFromTop > 0) {
-            if (board[adjustRow - check][adjustCol] === color) {
-                fourCheckVert++;
-            } else {
-                break;
+            let fourCheckHor = 1;
+            let distFromRight = this.colNum - 1 - this.adjustCol;
+            let distFromLeft = this.adjustCol;
+
+            for (let check = 1; check <= distFromRight; check++) {
+                if (distFromRight > 0) {
+                    if (this.board[this.adjustRow][this.adjustCol + check] === color) {
+                        fourCheckHor++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    let fourCheckHor = 1;
-
-    let distFromRight = colNum - 1 - adjustCol;
-    let distFromLeft = adjustCol;
-
-    for (let check = 1; check <= distFromRight; check++) {
-        if (distFromRight > 0) {
-            if (board[adjustRow][adjustCol + check] === color) {
-                fourCheckHor++;
-            } else {
-                break;
+            for (let check = 1; check <= distFromLeft; check++) {
+                if (distFromLeft > 0) {
+                    if (this.board[this.adjustRow][this.adjustCol - check] === color) {
+                        fourCheckHor++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    for (let check = 1; check <= distFromLeft; check++) {
-        if (distFromLeft > 0) {
-            if (board[adjustRow][adjustCol - check] === color) {
-                fourCheckHor++;
-            } else {
-                break;
+            let fourCheckDiagRight = 1;
+
+            for (let check = 1; check <= distFromBottom; check++) {
+                if (distFromBottom > 0) {
+                    if (this.board[this.adjustRow + check][this.adjustCol + check] === color) {
+                        fourCheckDiagRight++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    let fourCheckDiagSlopeR = 1;
-
-    for (let check = 1; check <= distFromBottom; check++) {
-        if (distFromBottom > 0) {
-            if (board[adjustRow + check][adjustCol + check] === color) {
-                fourCheckDiagSlopeR++;
-            } else {
-                break;
+            for (let check = 1; check <= distFromTop; check++) {
+                if (distFromTop > 0) {
+                    if (this.board[this.adjustRow - check][this.adjustCol - check] === color) {
+                        fourCheckDiagRight++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    for (let check = 1; check <= distFromTop; check++) {
-        if (distFromTop > 0) {
-            if (board[adjustRow - check][adjustCol - check] === color) {
-                fourCheckDiagSlopeR++;
-            } else {
-                break;
+            let fourCheckDiagLeft = 1;
+
+            for (let check = 1; check <= distFromBottom; check++) {
+                if (distFromBottom > 0) {
+                    if (this.board[this.adjustRow + check][this.adjustCol - check] === color) {
+                        fourCheckDiagLeft++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    let fourCheckDiagSlopeL = 1;
-
-    for (let check = 1; check <= distFromBottom; check++) {
-        if (distFromBottom > 0) {
-            if (board[adjustRow + check][adjustCol - check] === color) {
-                fourCheckDiagSlopeL++;
-            } else {
-                break;
+            for (let check = 1; check <= distFromTop; check++) {
+                if (distFromTop > 0) {
+                    if (this.board[this.adjustRow - check][this.adjustCol + check] === color) {
+                        fourCheckDiagLeft++;
+                    } else {
+                        break;
+                    }
+                }
             }
-        }
-    }
 
-    for (let check = 1; check <= distFromTop; check++) {
-        if (distFromTop > 0) {
-            if (board[adjustRow - check][adjustCol + check] === color) {
-                fourCheckDiagSlopeL++;
-            } else {
-                break;
+            for (let i = 0; i < this.rowNum; i++) {
+                console.writeln(this.board[i]);
             }
+
+            console.writeln(`-----------------------------------------------------`);
+            let winner = false;
+            if ((fourCheckVert >= 4) || (fourCheckHor >= 4) || (fourCheckDiagRight >= 4) || (fourCheckDiagLeft >= 4)) {
+                winner = true;
+            }
+            return winner;
         }
     }
-    for (let i = 0; i < rowNum; i++) {
-        console.writeln(board[i]);
-    }
-    console.writeln(`-----------------------------------------------------`);
-    let winner = false;
-    if ((fourCheckVert >= 4) || (fourCheckHor >= 4) || (fourCheckDiagSlopeR >= 4) || (fourCheckDiagSlopeL >= 4)) {
-        winner = true;
-    }
-    return winner;
+    return game;
 }
 
 function initYesNoDialog(question) {
