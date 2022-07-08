@@ -4,7 +4,7 @@ const console = new Console();
 Draughts();
 
 function Draughts() {
-    let continueDialog = initYesNoDialog(`¿Quieres jugar otra partida? `);
+    let continueDialog = initYesNoDialog(`¿Do you want to continue? "yes" or "no"`);
     do {
         const game = initGame();
         game.play();
@@ -20,6 +20,8 @@ function initGame() {
         TOKEN_Y: "Y",
         TOKEN_EMPTY: "_",
         MAX_ROWS_COLUMNS: 8,
+        tokens_X: 12,
+        tokens_Y: 12,
         board: [["_", "Y", "_", "Y", "_", "Y", "_", "Y"],
         ["Y", "_", "Y", "_", "Y", "_", "Y", "_"],
         ["_", "Y", "_", "Y", "_", "Y", "_", "Y"],
@@ -31,35 +33,35 @@ function initGame() {
 
 
         play: function () {
-            let winner;
             do {
-                this.writelnTokens();
+                this.writelnBoard();
                 this.placeToken();
-                if (!winner) {
+                if (this.tokens_Y > 0) {
                     this.nextTurn();
                 }
-            } while (!winner);
-            this.writelnTokens();
+                console.writeln(`There are ${this.tokens_X} tokens left`);
+                console.writeln(`There are ${this.tokens_Y} tokens left`);
+            } while (this.tokens_X > 0 && this.tokens_Y > 0);
+            this.writelnBoard();
             this.writeWinner();
         },
 
-        writelnTokens: function () {
-
+        writelnBoard: function () {
             for (let i = 0; i < this.board.length; i++) {
                 console.writeln(this.board[i]);
             }
         },
 
         placeToken: function () {
-            console.writeln(`Turno para ${this.getToken()}`);
+            console.writeln(`Turn for ${this.getToken()}`);
             let error;
             let origin;
             do {
                 origin = initCoordinate();
-                origin.read('origen', this.MAX_ROWS_COLUMNS);
+                origin.read('origin', this.MAX_ROWS_COLUMNS);
                 error = !this.isOccupied(origin, this.getToken());
                 if (error) {
-                    console.writeln(`No hay una ficha de la propiedad de ${this.getToken()}`);
+                    console.writeln(`There isn't token property of ${this.getToken()}`);
                 }
             } while (error);
 
@@ -67,18 +69,42 @@ function initGame() {
             let validMovement;
             do {
                 target = initCoordinate();
-                target.read('destino', this.MAX_ROWS_COLUMNS);
-                error = !this.isEmpty(target);
+                target.read('destiny', this.MAX_ROWS_COLUMNS);
+                let jump = !this.isEmpty(target);
                 validMovement = this.isMovement(target);
-                if (error) {
-                    console.writeln(`Indique una celda vacía`);
+                if (jump && this.getToken() === this.TOKEN_X) {
+                    this.putEmptyToken(origin);
+                    this.putEmptyToken(target);
+                    this.tokens_Y--;
+                    if (this.directionMovement(origin, target) === 1) {
+                        target.row = target.row - 1;
+                        target.column = target.column + 1;
+                        this.putToken(target, this.getToken());
+                    } else {
+                        target.row = target.row - 1;
+                        target.column = target.column - 1;
+                        this.putToken(target, this.getToken());
+                    }
+                } else if (jump && this.getToken() === this.TOKEN_Y) {
+                    this.putEmptyToken(origin);
+                    this.putEmptyToken(target);
+                    this.tokens_X--;
+                    if (this.directionMovement(origin, target) === 1) {
+                        target.row = target.row + 1;
+                        target.column = target.column + 1;
+                        this.putToken(target, this.getToken());
+                    } else {
+                        target.row = target.row + 1;
+                        target.column = target.column - 1;
+                        this.putToken(target, this.getToken());
+                    }
+                } else if (!validMovement) {
+                    console.writeln(`Invalid movement`);
+                } else if (!jump && validMovement) {
+                    this.putEmptyToken(origin);
+                    this.putToken(target, this.getToken());
                 }
-                else if (!validMovement) {
-                    console.writeln(`Movimiento inválido`);
-                }
-            } while (error || !validMovement);
-            this.putEmptyToken(origin);
-            this.putToken(target, this.getToken());
+            } while (!validMovement);
         },
 
         isMovement: function ({ row, column }) {
@@ -89,6 +115,9 @@ function initGame() {
             this.turn = (this.turn + 1) % this.MAX_PLAYERS;
         },
 
+        directionMovement: function (origin, target) {
+            return target.column > origin.column ? 1 : -1;
+        },
         putEmptyToken: function (coordinate) {
             this.putToken(coordinate, this.TOKEN_EMPTY);
         },
@@ -110,9 +139,8 @@ function initGame() {
         },
 
         writeWinner: function () {
-            console.writeln(`Victoria para ${this.getToken()}`);
+            console.writeln(`Winner is ${this.getToken()}`);
         },
-
     }
     return game;
 }
@@ -123,8 +151,8 @@ function initCoordinate() {
         column: undefined,
 
         read: function (title, max) {
-            this.row = read(`Fila ${title}`, max);
-            this.column = read(`Columna ${title}`, max);
+            this.row = read(`Row ${title}`, max);
+            this.column = read(`Column ${title}`, max);
         }
     };
 
@@ -135,7 +163,7 @@ function initCoordinate() {
             position = console.readNumber(`${title}: `);
             error = position < 1 || max < position;
             if (error) {
-                console.writeln(`Por favor un numero entre 1 y ${max} inclusives`)
+                console.writeln(`Please enter a number between 1 and ${max} both included`)
             }
         } while (error);
         return position - 1;
@@ -153,13 +181,13 @@ function initYesNoDialog(question) {
                 answer = console.readString(this.question);
                 error = !this.isAffirmative() && !this.isNegative();
                 if (error) {
-                    console.writeln(`Por favor, responda "si" o "no"`);
+                    console.writeln(`Please answer with "yes" or "no"`);
                 }
             } while (error);
         },
 
         isAffirmative: function () {
-            return answer === `si`;
+            return answer === `yes`;
         },
 
         isNegative: function () {
