@@ -44,18 +44,23 @@ function initGameView() {
     return {
         play: function () {
             console.writeln(`----- CONNECT4 -----`);
-            this.show();
             let coordinate;
             do {
+                this.show();
                 coordinate = initBoardView().readColumn(activePlayer.isPlayerTurn(), boardView.board.grid);
                 coordinate.owner = activePlayer.isPlayerTurn();
                 boardView.board.grid = game.updateGrid(coordinate, boardView.board.grid);
                 game.MAX_MOVEMENTS--;
-                activePlayer.changeTurn();
-                this.show();
-                console.writeln(`Moves left: ${game.MAX_MOVEMENTS}`);
-            } while (!initGame().isEndGame(coordinate, boardView.board.grid));
-            initBoardView().showWinnerMsg(coordinate);
+                gameFinished = initGame().isEndGame(coordinate, boardView.board.grid);
+                if (gameFinished) {
+                    this.show();
+                    initBoardView().showFinalMsg(activePlayer.isPlayerTurn(), game.MAX_MOVEMENTS);
+                } else {
+                    activePlayer.changeTurn();
+                    console.writeln(`Moves left: ${game.MAX_MOVEMENTS}`);
+                }
+            } while (!gameFinished);
+
         },
         show: function () {
             initBoardView().showBoard(boardView.board.grid);
@@ -157,11 +162,10 @@ function initBoardView() {
                     correctColumn = false;
                 }
             } while (!correctColumn);
-            console.writeln(`Player ${player} placed in coordinate(${coordinate.row},${coordinate.col})`);
             return coordinate;
         },
-        showWinnerMsg(coordinate) {
-            console.writeln(`The winner is the player ${coordinate.owner}`);
+        showFinalMsg(lastActivePlayer, MAX_MOVEMENTS) {
+            MAX_MOVEMENTS !== 0 ? console.writeln(`The winner is the player ${lastActivePlayer}`) : console.writeln(`Tied Game`);
         }
     }
 }
