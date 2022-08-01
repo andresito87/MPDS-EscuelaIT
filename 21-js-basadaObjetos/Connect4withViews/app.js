@@ -1,9 +1,9 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 //TODO : Replace numbers for MAX_ROWS and MAX_COLUMNS;
-initConect4View().play();
+initConnect4View().play();
 
-function initConect4View() {
+function initConnect4View() {
     return {
         play: function () {
             const continueDialogView = initYesNoDialogView(`Do you want to continue? (yes/no)`);
@@ -40,7 +40,7 @@ function initYesNoDialogView(question) {
 function initGameView() {
     const game = initGame();
     let boardView = initBoardView();
-    let activePlayer = player();
+    let activePlayer = initPlayer();
     return {
         play: function () {
             console.writeln(`----- CONNECT4 -----`);
@@ -50,17 +50,14 @@ function initGameView() {
                 coordinate = initBoardView().readColumn(activePlayer.isPlayerTurn(), boardView.board.grid);
                 coordinate.owner = activePlayer.isPlayerTurn();
                 boardView.board.grid = game.updateGrid(coordinate, boardView.board.grid);
-                game.MAX_MOVEMENTS--;
-                gameFinished = initGame().isEndGame(coordinate, boardView.board.grid);
+                gameFinished = initGame().isEndGame(coordinate, boardView.board.grid, activePlayer.turn);
                 if (gameFinished) {
                     this.show();
-                    initBoardView().showFinalMsg(activePlayer.isPlayerTurn(), game.MAX_MOVEMENTS);
+                    initBoardView().showFinalMsg(activePlayer.isPlayerTurn(), game.MAX_MOVEMENTS, activePlayer.turn);
                 } else {
                     activePlayer.changeTurn();
-                    console.writeln(`Moves left: ${game.MAX_MOVEMENTS}`);
                 }
             } while (!gameFinished);
-
         },
         show: function () {
             initBoardView().showBoard(boardView.board.grid);
@@ -68,7 +65,7 @@ function initGameView() {
     }
 }
 
-function player() {
+function initPlayer() {
     return {
         turn: 0,
         player1: "X",
@@ -91,24 +88,29 @@ function initBoard() {
         ["4", "_", "_", "_", "_", "_", "_", "_"],
         ["5", "_", "_", "_", "_", "_", "_", "_"],
         ["6", "_", "_", "_", "_", "_", "_", "_"]],
-        isConnectedInHorizontal(coordinate, grid) {
-            let count = 0;
+
+        isConnectedInVertical(coordinate, grid) {
+            let countVertical = 0;
             for (let row = coordinate.row; row < grid.length; row++) {
                 if (grid[row][coordinate.col] === coordinate.owner) {
-                    count++;
+                    countVertical++;
+                } else {
+                    countVertical = 0;
                 }
             }
-            return count >= 4;
+            return countVertical === 4;
         },
-        isConnectedInVertical(coordinate, grid) {
-            let count = 0;
+        isConnectedInHorizontal(coordinate, grid) {
+            let countHorizontal = 0;
             for (let col = 1; col < grid[coordinate.row].length; col++) {
                 let char = coordinate.owner;
                 if (char === grid[coordinate.row][col - 1]) {
-                    count++;
+                    countHorizontal++;
+                } else {
+                    countHorizontal = 0;
                 }
             }
-            return count >= 4;
+            return countHorizontal === 4;
         },
         isConnectedInDiagonal(coordinate, grid) {
             let countDiagonalLeft = 0;
@@ -117,6 +119,8 @@ function initBoard() {
                 let aux = grid[row][col];
                 if (aux === grid[row + 1][col - 1] && aux === char) {
                     countDiagonalLeft++;
+                } else {
+                    countDiagonalLeft = 0;
                 }
             }
             let countDiagonalRight = 0;
@@ -125,9 +129,11 @@ function initBoard() {
                 let aux = grid[row][col];
                 if (aux === grid[row + 1][col + 1] && aux === char) {
                     countDiagonalRight++;
+                } else {
+                    countDiagonalRight = 0;
                 }
             }
-            return countDiagonalLeft >= 3 || countDiagonalRight >= 3;
+            return countDiagonalLeft === 3 || countDiagonalRight === 3;
         }
     }
 }
@@ -141,7 +147,7 @@ function initBoardView() {
                 console.writeln(grid[row]);
             }
         },
-        readColumn(player, grid) {
+        readColumn(player, grid) { //divide readColumn and getCoordinate
             let correctColumn;
             let coordinate = initCoordinate();
             do {
@@ -164,8 +170,8 @@ function initBoardView() {
             } while (!correctColumn);
             return coordinate;
         },
-        showFinalMsg(lastActivePlayer, MAX_MOVEMENTS) {
-            MAX_MOVEMENTS !== 0 ? console.writeln(`The winner is the player ${lastActivePlayer}`) : console.writeln(`Tied Game`);
+        showFinalMsg(lastActivePlayer, MAX_MOVEMENTS, turn) {
+            turn === MAX_MOVEMENTS ? console.writeln(`Tied Game`) : console.writeln(`The winner is the player ${lastActivePlayer}`);
         }
     }
 }
@@ -185,20 +191,16 @@ function initGame() {
             grid[coordinate.row][coordinate.col] = coordinate.owner;
             return grid;
         },
-        isEndGame(coordinate, grid) {
-            return this.isWinner(coordinate, grid) || this.isTied();
+        isEndGame(coordinate, grid, turn) {
+            return this.isWinner(coordinate, grid) || this.isTied(turn);
         },
         isWinner(coordinate, grid) {
-            if (initBoardView().board.isConnectedInHorizontal(coordinate, grid)
+            return initBoardView().board.isConnectedInHorizontal(coordinate, grid)
                 || initBoardView().board.isConnectedInVertical(coordinate, grid)
                 || initBoardView().board.isConnectedInDiagonal(coordinate, grid)
-            ) {
-                return true;
-            }
-            return false;
         },
-        isTied() {
-            return this.MAX_MOVEMENTS === 0;
+        isTied(turn) {
+            return this.MAX_MOVEMENTS === turn;
         }
     }
 }
