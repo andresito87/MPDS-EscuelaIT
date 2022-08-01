@@ -147,7 +147,7 @@ function initBoardView() {
                 console.writeln(grid[row]);
             }
         },
-        readColumn(player, grid) { //divide readColumn and getCoordinate
+        readColumn(player, grid) { //separate readColumn() and getCoordinate()
             let correctColumn;
             let coordinate = initCoordinate();
             do {
@@ -170,7 +170,7 @@ function initBoardView() {
             } while (!correctColumn);
             return coordinate;
         },
-        showFinalMsg(lastActivePlayer, MAX_MOVEMENTS, turn) {
+        showFinalMsg(lastActivePlayer, MAX_MOVEMENTS, turn) { //Move to initGameView, reduce numbers of parameters
             turn === MAX_MOVEMENTS ? console.writeln(`Tied Game`) : console.writeln(`The winner is the player ${lastActivePlayer}`);
         }
     }
