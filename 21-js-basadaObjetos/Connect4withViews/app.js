@@ -5,7 +5,7 @@ initConnect4View().play();
 
 function initConnect4View() {
     return {
-        play: function () {
+        play() {
             const continueDialogView = initYesNoDialogView(`Do you want to continue? (yes/no)`);
             do {
                 initGameView().play();
@@ -18,7 +18,7 @@ function initConnect4View() {
 function initYesNoDialogView(question) {
     let answer = ``;
     return {
-        read: function () {
+        read() {
             let error;
             do {
                 answer = console.readString(question);
@@ -28,10 +28,10 @@ function initYesNoDialogView(question) {
                 }
             } while (error);
         },
-        isAffirmative: function () {
+        isAffirmative() {
             return answer === `yes`;
         },
-        isNegative: function () {
+        isNegative() {
             return answer === `no`;
         }
     };
@@ -42,18 +42,18 @@ function initGameView() {
     let boardView = initBoardView();
     let player = initPlayer();
     return {
-        play: function () {
+        play() {
             console.writeln(`----- CONNECT4 -----`);
             let coordinate;
             do {
                 this.showBoard();
-                coordinate = initBoardView().readColumn(player.isPlayerTurn(), boardView.board.grid);
-                coordinate.owner = player.isPlayerTurn();
+                coordinate = initBoardView().readColumn(player.getTurn(), boardView.board.grid);
+                coordinate.owner = player.getTurn();
                 boardView.board.grid = game.updateGrid(coordinate, boardView.board.grid);
                 gameFinished = initGame().isEndGame(coordinate, boardView.board.grid, player.turn);
                 if (gameFinished) {
                     this.showBoard();
-                    this.showFinalMsg(player.isPlayerTurn(), game.MAX_MOVEMENTS, player.turn);
+                    this.showFinalMsg(player.getTurn(), game.MAX_MOVEMENTS, player.turn);
                 } else {
                     player.changeTurn();
                 }
@@ -73,7 +73,7 @@ function initPlayer() {
         turn: 0,
         player1: "X",
         player2: "O",
-        isPlayerTurn() {
+        getTurn() {
             return this.turn % 2 === 0 ? this.player1 : this.player2;
         },
         changeTurn() {
